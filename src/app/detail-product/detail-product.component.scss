@@ -16,24 +16,31 @@
 
 .product-image {
   width: 100%;
-  height: 500px;
+  height: 100%;
   object-fit: cover;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .thumbnail-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  justify-content: space-between;
   margin-top: 20px;
 }
 
 .thumbnail-item {
-  flex: 1;
-  min-width: 80px;
-  max-width: 120px;
-  padding: 5px;
+  width: 120px;
+  height: 120px;
+  margin-right: 5px;
+}
+
+.thumbnail-item:last-child {
+  margin-right: 0;
+}
+
+.thumbnail-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .thumbnail-image {
@@ -45,77 +52,54 @@
   transition: opacity 0.3s;
 }
 
-.thumbnail-item.active .thumbnail-image {
-  opacity: 1;
-}
-
-.thumbnail-item:hover .thumbnail-image {
-  opacity: 1;
-  cursor: pointer;
+.thumbnail-item.active {
+  border: 2px solid white;
 }
 
 .product-details {
   color: white;
-  padding-left: 20px;
-}
-
-.product-details h2 {
-  font-size: 24px;
-  margin-bottom: 15px;
-}
-
-.product-details p {
-  margin-bottom: 10px;
+  padding: 20px;
 }
 
 .product-actions {
   display: flex;
-  gap: 10px;
+  justify-content: flex-start;
   margin-top: 20px;
 }
 
 .product-actions button {
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-size: 16px;
+  margin-right: 10px;
+}
+
+.border-wrapper {
+  border: 1px solid white;
 }
 
 .product-quantity {
-  margin-top: 20px;
-}
-
-.product-quantity .border-wrapper {
   display: flex;
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  width: 120px;
+  justify-content: flex-start;
+  margin-top: 20px;
 }
 
 .product-quantity button {
   background-color: transparent;
-  color: white;
-  padding: 5px 13px;
   border: none;
+  color: white;
+  font-size: 16px;
   cursor: pointer;
 }
 
 .product-quantity input {
-  width: 50px;
-  text-align: center;
-  border: none;
   background-color: transparent;
+  border: none;
   color: white;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  border-radius: 50%;
+  font-size: 16px;
+  text-align: center;
   width: 40px;
-  height: 40px;
+  margin: 0 10px;
 }
 
-.carousel-control-prev-icon::before,
-.carousel-control-next-icon::before {
-  filter: invert(0);
-  color: white;
+.product-quantity input:focus {
+  outline: none;
 }
