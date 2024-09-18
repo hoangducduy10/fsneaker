@@ -1,7 +1,7 @@
 package com.project.fsneaker.controllers;
 
-import com.project.fsneaker.dto.UserDTO;
-import com.project.fsneaker.dto.UserLoginDTO;
+import com.project.fsneaker.dtos.UserDTO;
+import com.project.fsneaker.dtos.UserLoginDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

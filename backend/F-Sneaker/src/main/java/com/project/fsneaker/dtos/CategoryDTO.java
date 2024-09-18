@@ -1,4 +1,4 @@
-package com.project.fsneaker.dto;
+package com.project.fsneaker.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

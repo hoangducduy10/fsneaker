@@ -1,6 +1,6 @@
 package com.project.fsneaker.controllers;
 
-import com.project.fsneaker.dto.OrderDTO;
+import com.project.fsneaker.dtos.OrderDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

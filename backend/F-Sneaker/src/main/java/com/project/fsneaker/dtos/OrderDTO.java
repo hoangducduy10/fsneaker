@@ -1,4 +1,4 @@
-package com.project.fsneaker.dto;
+package com.project.fsneaker.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
