@@ -2,7 +2,9 @@ package com.project.fsneaker.controllers;
 
 import com.project.fsneaker.dtos.UserDTO;
 import com.project.fsneaker.dtos.UserLoginDTO;
+import com.project.fsneaker.services.IUserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -15,7 +17,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${api.prefix}/users")
+@RequiredArgsConstructor
 public class UserController {
+
+    private final IUserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(
@@ -33,6 +38,7 @@ public class UserController {
             if(!userDTO.getPassword().equals(userDTO.getRetypePassword())){
                 return ResponseEntity.badRequest().body("Passwords do not match!");
             }
+            userService.createUser(userDTO);
             return ResponseEntity.ok("Register successfully!");
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -41,6 +47,8 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody UserLoginDTO userLoginDTO){
+        // Kiem tra tt dang nhap va generate token
+        String token = userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
         return ResponseEntity.ok("Some token");
     }
 
