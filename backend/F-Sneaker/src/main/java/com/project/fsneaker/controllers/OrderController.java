@@ -1,7 +1,10 @@
 package com.project.fsneaker.controllers;
 
 import com.project.fsneaker.dtos.OrderDTO;
+import com.project.fsneaker.responses.OrderResponse;
+import com.project.fsneaker.services.IOrderService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -18,11 +21,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${api.prefix}/orders")
+@RequiredArgsConstructor
 public class OrderController {
+
+    private final IOrderService orderService;
 
     @PostMapping("")
     public ResponseEntity<?> addOrder(
-            @RequestBody @Valid OrderDTO order,
+            @RequestBody @Valid OrderDTO orderDTO,
             BindingResult bindingResult
     ) {
         try {
@@ -33,7 +39,8 @@ public class OrderController {
                         .toList();
                 return ResponseEntity.badRequest().body(errors);
             }
-            return ResponseEntity.ok("Order created successfully!");
+            OrderResponse orderResponse = orderService.createOrder(orderDTO);
+            return ResponseEntity.ok(orderResponse);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

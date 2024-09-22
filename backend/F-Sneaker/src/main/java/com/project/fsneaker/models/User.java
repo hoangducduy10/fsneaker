@@ -41,15 +41,16 @@ public class User extends BaseEntity {
     @Column(name = "password", length = 200, nullable = false)
     private String password;
 
+    @Column(name = "is_active")
     private boolean active;
 
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
-    @Column(name = "facebook_accout_id")
+    @Column(name = "facebook_account_id")
     private int facebookAccoutId;
 
-    @Column(name = "google_accout_id")
+    @Column(name = "google_account_id")
     private int googleAccoutId;
 
     @ManyToOne

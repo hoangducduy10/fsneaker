@@ -1,6 +1,10 @@
-package com.project.fsneaker.dtos;
+package com.project.fsneaker.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.project.fsneaker.models.User;
+import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -10,7 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -18,10 +22,11 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
-public class OrderDTO {
+public class OrderResponse extends BaseResponse {
+
+    private Long id;
 
     @JsonProperty("user_id")
-    @Min(value = 1, message = "User's ID must be > 0!")
     private Long userId;
 
     @JsonProperty("fullname")
@@ -29,18 +34,20 @@ public class OrderDTO {
 
     private String email;
 
-    @NotBlank(message = "Phone number is required!")
     @JsonProperty("phone_number")
-    @Size(min = 5, message = "Phone number must be at least 5 characters!")
     private String phoneNumber;
 
     private String address;
 
     private String note;
 
+    @JsonProperty("order_date")
+    private LocalDateTime orderDate;
+
+    private String status;
+
     @JsonProperty("total_money")
-    @Min(value = 0, message = "Total money must be >= 0!")
-    private Integer totalMoney;
+    private Float totalMoney;
 
     @JsonProperty("shipping_method")
     private String shippingMethod;
@@ -49,9 +56,14 @@ public class OrderDTO {
     private String shippingAddress;
 
     @JsonProperty("shipping_date")
-    private LocalDate shippingDate;
+    private Date shippingDate;
+
+    @JsonProperty("tracking_number")
+    private String trackingNumber;
 
     @JsonProperty("payment_method")
     private String paymentMethod;
+
+    private Boolean active; // thuoc ve admin
 
 }
