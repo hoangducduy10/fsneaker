@@ -1,20 +1,13 @@
 package com.project.fsneaker.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.project.fsneaker.models.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -42,7 +35,7 @@ public class OrderResponse extends BaseResponse {
     private String note;
 
     @JsonProperty("order_date")
-    private LocalDateTime orderDate;
+    private Date orderDate;
 
     private String status;
 
@@ -56,7 +49,7 @@ public class OrderResponse extends BaseResponse {
     private String shippingAddress;
 
     @JsonProperty("shipping_date")
-    private Date shippingDate;
+    private LocalDate shippingDate;
 
     @JsonProperty("tracking_number")
     private String trackingNumber;
@@ -65,5 +58,27 @@ public class OrderResponse extends BaseResponse {
     private String paymentMethod;
 
     private Boolean active; // thuoc ve admin
+
+    public OrderResponse(Long id, Long userId, String fullName, String email, String phoneNumber,
+                         String address, String note, Date orderDate, String status,
+                         Float totalMoney, String shippingMethod, LocalDate shippingDate,
+                         String shippingAddress, String trackingNumber, String paymentMethod, Boolean active) {
+        this.id = id;
+        this.userId = userId;
+        this.fullName = fullName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.note = note;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.totalMoney = totalMoney;
+        this.shippingMethod = shippingMethod;
+        this.shippingDate = shippingDate;
+        this.shippingAddress = shippingAddress;
+        this.trackingNumber = trackingNumber;
+        this.paymentMethod = paymentMethod;
+        this.active = active;
+    }
 
 }

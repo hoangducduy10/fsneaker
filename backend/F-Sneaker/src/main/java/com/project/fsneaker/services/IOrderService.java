@@ -2,6 +2,7 @@ package com.project.fsneaker.services;
 
 import com.project.fsneaker.dtos.OrderDTO;
 import com.project.fsneaker.exceptions.DataNotFoundException;
+import com.project.fsneaker.models.Order;
 import com.project.fsneaker.responses.OrderResponse;
 
 import java.util.List;
@@ -12,10 +13,10 @@ public interface IOrderService {
 
     OrderResponse getOrderById(Long id);
 
-    OrderResponse updateOrder(Long id, OrderDTO orderDTO);
+    Order updateOrder(Long id, OrderDTO orderDTO) throws DataNotFoundException;
 
     void deleteOrder(Long id);
 
-    List<OrderResponse> getAllOrders(Long userId);
+    List<OrderResponse> findByUserId(Long userId);
 
 }

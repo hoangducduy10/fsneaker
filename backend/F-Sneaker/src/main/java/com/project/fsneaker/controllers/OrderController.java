@@ -1,6 +1,7 @@
 package com.project.fsneaker.controllers;
 
 import com.project.fsneaker.dtos.OrderDTO;
+import com.project.fsneaker.models.Order;
 import com.project.fsneaker.responses.OrderResponse;
 import com.project.fsneaker.services.IOrderService;
 import jakarta.validation.Valid;
@@ -46,10 +47,21 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/{user_id}")
+    @GetMapping("/user/{user_id}")
     public ResponseEntity<?> getOrdersByUserId(@PathVariable("user_id") Long userId) {
         try {
-            return ResponseEntity.ok("Orders found!");
+            List<OrderResponse> orderResponseList = orderService.findByUserId(userId);
+            return ResponseEntity.ok(orderResponseList);
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOrderByOrderId(@PathVariable("id") Long orderId) {
+        try {
+            OrderResponse existingOrder = orderService.getOrderById(orderId);
+            return ResponseEntity.ok(existingOrder);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -57,14 +69,21 @@ public class OrderController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateOrder(
-            @PathVariable("id") Long id, @RequestBody @Valid OrderDTO orderDTO
+            @PathVariable("id") Long id,
+            @RequestBody @Valid OrderDTO orderDTO
     ) {
-        return ResponseEntity.ok("Order updated successfully!");
+        try {
+            Order order = orderService.updateOrder(id, orderDTO);
+            return ResponseEntity.ok(order);
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteOrder(@PathVariable("id") Long id) {
 //        Xóa mềm => update field active = false => có thể xem lai khi can thiet, xóa cứng là xóa hẳn trong db
+        orderService.deleteOrder(id);
         return ResponseEntity.ok("Order deleted successfully!");
     }
 

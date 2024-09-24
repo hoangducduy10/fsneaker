@@ -9,6 +9,7 @@ import com.project.fsneaker.repositories.OrderRepository;
 import com.project.fsneaker.repositories.UserRepository;
 import com.project.fsneaker.responses.OrderResponse;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -49,21 +50,34 @@ public class OrderService implements IOrderService {
 
     @Override
     public OrderResponse getOrderById(Long id) {
-        return null;
+        return orderRepository.findByOrderId(id).orElse(null);
     }
 
     @Override
-    public OrderResponse updateOrder(Long id, OrderDTO orderDTO) {
-        return null;
+    public Order updateOrder(Long id, OrderDTO orderDTO) throws DataNotFoundException {
+        Order existingOrder = orderRepository.findById(id).orElseThrow(
+                () -> new DataNotFoundException("Cannot find order with id: "+id));
+        User existingUser = userRepository.findById(orderDTO.getUserId()).orElseThrow(
+                () -> new DataNotFoundException("Cannot find order with id: "+id));
+        modelMapper.typeMap(OrderDTO.class, Order.class)
+                .addMappings(mapper -> mapper.skip(Order::setId));
+        modelMapper.map(orderDTO, existingOrder);
+        existingOrder.setUser(existingUser);
+        return orderRepository.save(existingOrder);
     }
 
     @Override
     public void deleteOrder(Long id) {
-
+        Order order = orderRepository.findById(id).orElse(null);
+        // Ko xoa cung => xoa mem
+        if(order != null){
+            order.setActive(false);
+            orderRepository.save(order);
+        }
     }
 
     @Override
-    public List<OrderResponse> getAllOrders(Long userId) {
-        return List.of();
+    public List<OrderResponse> findByUserId(Long userId) {
+        return orderRepository.findByUserId(userId);
     }
 }
