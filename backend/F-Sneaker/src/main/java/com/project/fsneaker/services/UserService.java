@@ -65,7 +65,7 @@ public class UserService implements IUserService {
                 throw new BadCredentialsException("Wrong phone number or password!");
             }
         }
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(phoneNumber, password);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(phoneNumber, password, user.getAuthorities());
         authenticationManager.authenticate(authenticationToken);
         return jwtTokenUtil.generateToken(user);
     }

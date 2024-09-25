@@ -23,4 +23,4 @@ api:
   prefix: api/v1
 jwt:
   expiration: 2592000   #30 days
-  secretKey: I'm DuyM10
+  secretKey: or88cdmg8aVmDnJYu7tx+IYcpRXKWUxPAZnt6Uokkys=
