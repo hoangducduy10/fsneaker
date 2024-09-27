@@ -1,48 +1,132 @@
 <app-header />
 <div class="container">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <div class="login-form mx-auto">
-        <h2 class="register-header">Sign up</h2>
-        <div class="form-group">
-          <label for="email">Email/Phone</label>
-          <input type="text" class="form-control" id="email" />
-          <div class="divider-nospace"></div>
+  <form #registerForm="ngForm">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="login-form mx-auto">
+          <h2 class="register-header">Sign up</h2>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input
+              type="text"
+              name="phone"
+              class="form-control"
+              (focus)="registerForm.form.markAsTouched()"
+              required
+              [(ngModel)]="phone"
+              (input)="onPhoneChange()"
+              id="phone"
+            />
+            <div class="divider-nospace"></div>
+            <p
+              class="text-danger error-message"
+              *ngIf="phone.length < 10 && registerForm.form.touched"
+            >
+              Please enter a valid 10-digit phone number!
+            </p>
+          </div>
+          <div class="mt-3"></div>
+          <div class="form-group password-field">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              class="form-control"
+              required
+              [(ngModel)]="password"
+              id="password"
+            />
+            <i class="password-toggle fas fa-eye-slash"></i>
+            <div class="divider-nospace"></div>
+            <p
+              class="text-danger error-message"
+              *ngIf="password.length < 8 && registerForm.form.touched"
+            >
+              Please enter a password with at least 8 characters!
+            </p>
+          </div>
+          <div class="mt-3"></div>
+          <div class="form-group password-field">
+            <label for="retype-password">Confirm password</label>
+            <input
+              type="password"
+              name="retypePassword"
+              class="form-control"
+              id="retype-password"
+              [(ngModel)]="retypePassword"
+              (input)="registerForm.form.markAsTouched(); checkPasswordMatch()"
+              required
+            />
+            <i class="password-toggle fas fa-eye-slash"></i>
+            <div class="divider-nospace"></div>
+            <p
+              class="text-danger error-message"
+              *ngIf="
+                registerForm.form.controls['retypePassword'].hasError(
+                  'passwordNotMatch'
+                ) && registerForm.form.touched
+              "
+            >
+              Confirm password does not match the password!
+            </p>
+          </div>
+          <div class="mt-3"></div>
+          <div class="form-group">
+            <label for="full-name">Fullname</label>
+            <input
+              type="text"
+              class="form-control"
+              required
+              [(ngModel)]="fullName"
+              id="full-name"
+            />
+            <div class="divider-nospace"></div>
+          </div>
+          <div class="form-group">
+            <label for="date-of-birth">Date of Birth</label>
+            <input
+              type="date"
+              id="date-of-birth"
+              name="dateOfBirth"
+              class="form-control"
+              [(ngModel)]="dateOfBirth"
+              (input)="registerForm.form.markAsTouched(); checkAge()"
+              required
+            />
+            <div class="divider-nospace"></div>
+            <p
+              class="text-danger error-message"
+              *ngIf="
+                registerForm.form.controls['dateOfBirth'].hasError(
+                  'invalidAge'
+                ) && registerForm.form.touched
+              "
+            >
+              You must be at least 18 years old!
+            </p>
+          </div>
+          <div class="mt-3"></div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="address"
+              id="address"
+            />
+            <div class="divider-nospace"></div>
+          </div>
+          <button type="button" class="register-button" (click)="register()">
+            Sign up
+          </button>
+          <div class="divider mt-5"></div>
+          <p class="text-center">
+            Have an account already?
+            <span><a href="#" class="register-link">Login</a></span>
+          </p>
         </div>
-        <div class="mt-3"></div>
-        <div class="form-group password-field">
-          <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" />
-          <i class="password-toggle fas fa-eye-slash"></i>
-          <div class="divider-nospace"></div>
-        </div>
-        <div class="mt-3"></div>
-        <div class="form-group password-field">
-          <label for="confirm-password">Confirm password</label>
-          <input type="password" class="form-control" id="confirm-password" />
-          <i class="password-toggle fas fa-eye-slash"></i>
-          <div class="divider-nospace"></div>
-        </div>
-        <div class="mt-3"></div>
-        <div class="form-group">
-          <label for="full-name">Fullname</label>
-          <input type="text" class="form-control" id="full-name" />
-          <div class="divider-nospace"></div>
-        </div>
-        <div class="mt-3"></div>
-        <div class="form-group">
-          <label for="address">Address</label>
-          <input type="text" class="form-control" id="address" />
-          <div class="divider-nospace"></div>
-        </div>
-        <button type="button" class="register-button">Sign up</button>
-        <div class="divider mt-5"></div>
-        <p class="text-center">
-          Have an account already?
-          <span><a href="#" class="register-link">Login</a></span>
-        </p>
       </div>
     </div>
-  </div>
+  </form>
 </div>
 <app-footer />

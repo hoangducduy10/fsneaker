@@ -6,4 +6,4 @@ import { OrderConfirmComponent } from './app/order-confirm/order-confirm.compone
 import { LoginComponent } from './app/login/login.component';
 import { RegisterComponent } from './app/register/register.component';
 
-bootstrapApplication(DetailProductComponent).catch((err) => console.error(err));
+bootstrapApplication(RegisterComponent).catch((err) => console.error(err));
