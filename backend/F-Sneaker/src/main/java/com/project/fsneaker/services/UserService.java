@@ -3,6 +3,7 @@ package com.project.fsneaker.services;
 import com.project.fsneaker.components.JwtTokenUtil;
 import com.project.fsneaker.dtos.UserDTO;
 import com.project.fsneaker.exceptions.DataNotFoundException;
+import com.project.fsneaker.exceptions.PermissionDenyException;
 import com.project.fsneaker.models.Role;
 import com.project.fsneaker.models.User;
 import com.project.fsneaker.repositories.RoleRepository;
@@ -28,10 +29,15 @@ public class UserService implements IUserService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public User createUser(UserDTO userDTO) throws DataNotFoundException {
+    public User createUser(UserDTO userDTO) throws Exception {
         String phoneNumber = userDTO.getPhoneNumber();
         if(userRepository.existsByPhoneNumber(phoneNumber)) {
             throw new DataIntegrityViolationException("Phone number already exists!");
+        }
+        Role role = roleRepository.findById(userDTO.getRoleId())
+                .orElseThrow(() -> new DataNotFoundException("Role not found!"));
+        if(role.getName().toUpperCase().equals(Role.ADMIN)){
+            throw new PermissionDenyException("You cannot register an administrator!");
         }
         User user = User.builder()
                 .fullname(userDTO.getFullName())
@@ -42,8 +48,7 @@ public class UserService implements IUserService {
                 .facebookAccoutId(userDTO.getFacebookAccountId())
                 .googleAccoutId(userDTO.getGoogleAccountId())
                 .build();
-        Role role = roleRepository.findById(userDTO.getRoleId())
-                .orElseThrow(() -> new DataNotFoundException("Role not found!"));
+
         user.setRole(role);
         if(userDTO.getFacebookAccountId() == 0 && userDTO.getGoogleAccountId() == 0) {
             String password = userDTO.getPassword();
