@@ -6,21 +6,21 @@
         <div class="login-form mx-auto">
           <h2 class="register-header">Sign up</h2>
           <div class="form-group">
-            <label for="phone">Phone</label>
+            <label for="phoneNumber">Phone</label>
             <input
               type="text"
-              name="phone"
+              id="phoneNumber"
               class="form-control"
               (focus)="registerForm.form.markAsTouched()"
+              name="phoneNumber"
+              [(ngModel)]="phoneNumber"
+              (input)="onPhoneNumberChange()"
               required
-              [(ngModel)]="phone"
-              (input)="onPhoneChange()"
-              id="phone"
             />
             <div class="divider-nospace"></div>
             <p
               class="text-danger error-message"
-              *ngIf="phone.length < 10 && registerForm.form.touched"
+              *ngIf="phoneNumber.length < 10 && registerForm.form.touched"
             >
               Please enter a valid 10-digit phone number!
             </p>
@@ -30,11 +30,11 @@
             <label for="password">Password</label>
             <input
               type="password"
-              name="password"
-              class="form-control"
-              required
-              [(ngModel)]="password"
               id="password"
+              class="form-control"
+              name="password"
+              [(ngModel)]="password"
+              required
             />
             <i class="password-toggle fas fa-eye-slash"></i>
             <div class="divider-nospace"></div>
@@ -59,12 +59,24 @@
             />
             <i class="password-toggle fas fa-eye-slash"></i>
             <div class="divider-nospace"></div>
-            <p
+            <!-- <p
               class="text-danger error-message"
               *ngIf="
                 registerForm.form.controls['retypePassword'].hasError(
                   'passwordNotMatch'
                 ) && registerForm.form.touched
+              "
+            >
+              Confirm password does not match the password!
+            </p> -->
+            <p
+              class="text-danger error-message"
+              *ngIf="
+                registerForm.form.controls['retypePassword'] &&
+                registerForm.form.controls['retypePassword'].hasError(
+                  'passwordNotMatch'
+                ) &&
+                registerForm.form.touched
               "
             >
               Confirm password does not match the password!
@@ -75,6 +87,7 @@
             <label for="full-name">Fullname</label>
             <input
               type="text"
+              name="fullName"
               class="form-control"
               required
               [(ngModel)]="fullName"
@@ -94,12 +107,24 @@
               required
             />
             <div class="divider-nospace"></div>
-            <p
+            <!-- <p
               class="text-danger error-message"
               *ngIf="
                 registerForm.form.controls['dateOfBirth'].hasError(
                   'invalidAge'
                 ) && registerForm.form.touched
+              "
+            >
+              You must be at least 18 years old!
+            </p> -->
+            <p
+              class="text-danger error-message"
+              *ngIf="
+                registerForm.form.controls['dateOfBirth'] &&
+                registerForm.form.controls['dateOfBirth'].hasError(
+                  'invalidAge'
+                ) &&
+                registerForm.form.touched
               "
             >
               You must be at least 18 years old!
@@ -110,6 +135,7 @@
             <label for="address">Address</label>
             <input
               type="text"
+              name="address"
               class="form-control"
               [(ngModel)]="address"
               id="address"

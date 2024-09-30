@@ -5,5 +5,8 @@ import { OrderComponent } from './app/order/order.component';
 import { OrderConfirmComponent } from './app/order-confirm/order-confirm.component';
 import { LoginComponent } from './app/login/login.component';
 import { RegisterComponent } from './app/register/register.component';
+import { provideHttpClient } from '@angular/common/http';
 
-bootstrapApplication(RegisterComponent).catch((err) => console.error(err));
+bootstrapApplication(LoginComponent, {
+  providers: [provideHttpClient()],
+}).catch((err) => console.error(err));

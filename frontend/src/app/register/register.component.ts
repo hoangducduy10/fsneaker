@@ -4,6 +4,9 @@ import { HeaderComponent } from '../header/header.component';
 import { FormsModule } from '@angular/forms';
 import { NgForm } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
+import { RegisterDTO } from '../dtos/user/register.dto';
 
 @Component({
   selector: 'app-register',
@@ -15,15 +18,15 @@ import { NgIf } from '@angular/common';
 export class RegisterComponent {
   @ViewChild('registerForm') registerForm!: NgForm;
 
-  phone: string;
+  phoneNumber: string;
   password: string;
   retypePassword: string;
   fullName: string;
   address: string;
   dateOfBirth: Date;
 
-  constructor() {
-    this.phone = '';
+  constructor(private router: Router, private userService: UserService) {
+    this.phoneNumber = '';
     this.password = '';
     this.retypePassword = '';
     this.fullName = '';
@@ -32,17 +35,35 @@ export class RegisterComponent {
     this.dateOfBirth.setFullYear(this.dateOfBirth.getFullYear() - 18);
   }
 
-  onPhoneChange() {}
+  onPhoneNumberChange() {}
 
   register() {
-    const message =
-      `phone: ${this.phone}` +
-      `password: ${this.password}` +
-      `retypePassword: ${this.retypePassword}` +
-      `address: ${this.address}` +
-      `fullName: ${this.fullName}` +
-      `dateOfBirth: ${this.dateOfBirth}`;
-    alert(message);
+    debugger;
+
+    const registerDTO: RegisterDTO = {
+      fullname: this.fullName,
+      phone_number: this.phoneNumber,
+      address: this.address,
+      password: this.password,
+      retype_password: this.retypePassword,
+      date_of_birth: this.dateOfBirth,
+      facebook_account_id: 0,
+      google_account_id: 0,
+      role_id: 1,
+    };
+
+    this.userService.register(registerDTO).subscribe({
+      next: (response: any) => {
+        debugger;
+        this.router.navigate(['/login']);
+      },
+      complete: () => {
+        debugger;
+      },
+      error: (error: any) => {
+        alert(`Cannot register, error: ${error.error}`);
+      },
+    });
   }
 
   checkPasswordMatch() {
@@ -53,6 +74,15 @@ export class RegisterComponent {
     } else {
       this.registerForm.form.controls['retypePassword'].setErrors(null);
     }
+    // if (this.registerForm.form.controls['retypePassword']) {
+    //   if (this.password !== this.retypePassword) {
+    //     this.registerForm.form.controls['retypePassword'].setErrors({
+    //       passwordNotMatch: true,
+    //     });
+    //   } else {
+    //     this.registerForm.form.controls['retypePassword'].setErrors(null);
+    //   }
+    // }
   }
 
   checkAge() {
