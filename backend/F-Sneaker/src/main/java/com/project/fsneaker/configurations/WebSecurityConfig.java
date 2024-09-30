@@ -6,13 +6,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
@@ -61,8 +67,25 @@ public class WebSecurityConfig {
                             .requestMatchers(POST, String.format("%s/order_details/**", apiPrefix)).hasAnyRole(Role.USER)
                             .requestMatchers(PUT, String.format("%s/order_details/**", apiPrefix)).hasRole(Role.ADMIN)
                             .requestMatchers(DELETE, String.format("%s/order_details/**", apiPrefix)).hasRole(Role.ADMIN)
+
                             .anyRequest().authenticated();
-                });
+                })
+                .csrf(AbstractHttpConfigurer::disable);
+
+        http.cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
+            @Override
+            public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
+                CorsConfiguration corsConfiguration = new CorsConfiguration();
+                corsConfiguration.setAllowedOrigins(List.of("*"));
+                corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+                corsConfiguration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+                corsConfiguration.setExposedHeaders(List.of("x-auth-token"));
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                source.registerCorsConfiguration("/**", corsConfiguration);
+                httpSecurityCorsConfigurer.configurationSource(source);
+            }
+        });
+
         return http.build();
     }
 
