@@ -1,11 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
-import { LoginDTO } from '../dtos/user/login.dto';
-import { UserService } from '../services/user.service';
+import { LoginDTO } from '../../dtos/user/login.dto';
+import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { LoginResponse } from '../../responses/user/login.response';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,11 @@ export class LoginComponent {
   phoneNumber: string = '0862004185';
   password: string = '12345678';
 
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private tokenService: TokenService
+  ) {}
 
   onPhoneNumberChange() {}
 
@@ -33,8 +39,10 @@ export class LoginComponent {
     };
 
     this.userService.login(loginDTO).subscribe({
-      next: (response: any) => {
+      next: (response: LoginResponse) => {
         debugger;
+        const { token } = response;
+        this.tokenService.setToken(token);
         // this.router.navigate(['/login']);
       },
       complete: () => {
