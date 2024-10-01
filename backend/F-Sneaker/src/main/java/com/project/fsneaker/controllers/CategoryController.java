@@ -1,10 +1,14 @@
 package com.project.fsneaker.controllers;
 
+import com.project.fsneaker.components.LocalizationUtils;
 import com.project.fsneaker.dtos.CategoryDTO;
 import com.project.fsneaker.models.Category;
+import com.project.fsneaker.responses.UpdateCategoryResponse;
 import com.project.fsneaker.services.CategoryService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -17,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.LocaleResolver;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("${api.prefix}/categories")
@@ -26,6 +32,9 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final MessageSource messageSource;
+    private final LocaleResolver localeResolver;
+    private final LocalizationUtils localizationUtils;
 
     @PostMapping("")
     public ResponseEntity<?> createCategory(
@@ -54,9 +63,16 @@ public class CategoryController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<UpdateCategoryResponse> updateCategory(
+            @PathVariable Long id,
+            @RequestBody CategoryDTO categoryDTO,
+            HttpServletRequest request
+    ) {
         categoryService.updateCategory(id, categoryDTO);
-        return ResponseEntity.ok("Update category successfully!");
+        Locale locale = localeResolver.resolveLocale(request);
+        return ResponseEntity.ok(UpdateCategoryResponse.builder()
+                .message(messageSource.getMessage("category.update_category.login_successfully", null, locale))
+                .build());
     }
 
     @DeleteMapping("/{id}")

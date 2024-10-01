@@ -1,6 +1,6 @@
 package com.project.fsneaker.services;
 
-import com.project.fsneaker.components.JwtTokenUtil;
+import com.project.fsneaker.components.JwtTokenUtils;
 import com.project.fsneaker.dtos.UserDTO;
 import com.project.fsneaker.exceptions.DataNotFoundException;
 import com.project.fsneaker.exceptions.PermissionDenyException;
@@ -25,7 +25,7 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenUtils jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
 
     @Override

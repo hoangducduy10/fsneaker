@@ -1,5 +1,6 @@
 package com.project.fsneaker.controllers;
 
+import com.project.fsneaker.components.LocalizationUtils;
 import com.project.fsneaker.dtos.OrderDTO;
 import com.project.fsneaker.models.Order;
 import com.project.fsneaker.responses.OrderResponse;
@@ -26,6 +27,7 @@ import java.util.List;
 public class OrderController {
 
     private final IOrderService orderService;
+    private final LocalizationUtils localizationUtils;
 
     @PostMapping("")
     public ResponseEntity<?> addOrder(

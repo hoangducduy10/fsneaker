@@ -3,7 +3,11 @@ package com.project.fsneaker.controllers;
 import com.project.fsneaker.dtos.UserDTO;
 import com.project.fsneaker.dtos.UserLoginDTO;
 import com.project.fsneaker.models.User;
+import com.project.fsneaker.responses.LoginResponse;
+import com.project.fsneaker.responses.RegisterResponse;
 import com.project.fsneaker.services.IUserService;
+import com.project.fsneaker.components.LocalizationUtils;
+import com.project.fsneaker.utils.MessageKeys;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +26,10 @@ import java.util.List;
 public class UserController {
 
     private final IUserService userService;
+    private final LocalizationUtils localizationUtils;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(
+    public ResponseEntity<RegisterResponse> register(
             @Valid @RequestBody UserDTO userDTO,
             BindingResult bindingResult
     ) {
@@ -34,26 +39,43 @@ public class UserController {
                         .stream()
                         .map(FieldError::getDefaultMessage)
                         .toList();
-                return ResponseEntity.badRequest().body(errors);
+                return ResponseEntity.badRequest().body(RegisterResponse.builder()
+                                .message(localizationUtils.getLocalizedMessage(MessageKeys.REGISTER_FAILED))
+                        .build());
             }
             if(!userDTO.getPassword().equals(userDTO.getRetypePassword())){
-                return ResponseEntity.badRequest().body("Passwords do not match!");
+                return ResponseEntity.badRequest().body(RegisterResponse.builder()
+                                .message(localizationUtils.getLocalizedMessage(MessageKeys.PASSWORD_NOT_MATCH))
+                        .build());
             }
             User user = userService.createUser(userDTO);
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok(RegisterResponse.builder()
+                            .message(localizationUtils.getLocalizedMessage(MessageKeys.REGISTER_SUCCESSFULLY))
+                    .build());
         }catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(RegisterResponse.builder()
+                            .message(localizationUtils.getLocalizedMessage(MessageKeys.REGISTER_FAILED, e.getMessage()))
+                    .build());
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody UserLoginDTO userLoginDTO){
+    public ResponseEntity<LoginResponse> login(
+            @RequestBody UserLoginDTO userLoginDTO
+            ){
         // Kiem tra tt dang nhap va generate token
         try {
             String token = userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok(LoginResponse.builder()
+                    .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_SUCCESSFULLY))
+                    .token(token)
+                    .build());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(
+                    LoginResponse.builder()
+                    .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()))
+                            .build()
+            );
         }
     }
 

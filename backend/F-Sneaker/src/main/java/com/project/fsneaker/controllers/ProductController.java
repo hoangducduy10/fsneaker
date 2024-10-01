@@ -1,6 +1,7 @@
 package com.project.fsneaker.controllers;
 
 import com.github.javafaker.Faker;
+import com.project.fsneaker.components.LocalizationUtils;
 import com.project.fsneaker.dtos.ProductDTO;
 import com.project.fsneaker.dtos.ProductImageDTO;
 import com.project.fsneaker.models.Product;
@@ -47,6 +48,7 @@ import java.util.UUID;
 public class ProductController {
 
     private final IProductService productService;
+    private final LocalizationUtils localizationUtils;
 
     @GetMapping("")
     public ResponseEntity<ProductListResponse> getProducts(

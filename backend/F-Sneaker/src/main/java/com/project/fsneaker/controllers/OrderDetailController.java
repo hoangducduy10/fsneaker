@@ -1,5 +1,6 @@
 package com.project.fsneaker.controllers;
 
+import com.project.fsneaker.components.LocalizationUtils;
 import com.project.fsneaker.dtos.OrderDetailDTO;
 import com.project.fsneaker.exceptions.DataNotFoundException;
 import com.project.fsneaker.models.OrderDetail;
@@ -27,6 +28,7 @@ import java.util.List;
 public class OrderDetailController {
 
     private final OrderDetailService orderDetailService;
+    private final LocalizationUtils localizationUtils;
 
     @PostMapping("")
     public ResponseEntity<?> createOrderDetail(
