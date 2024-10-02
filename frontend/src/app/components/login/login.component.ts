@@ -8,11 +8,14 @@ import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { LoginResponse } from '../../responses/user/login.response';
 import { TokenService } from '../../services/token.service';
+import { RoleService } from '../../services/role.service';
+import { Role } from '../../models/role';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FooterComponent, HeaderComponent, FormsModule],
+  imports: [FooterComponent, HeaderComponent, FormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -22,13 +25,33 @@ export class LoginComponent {
   phoneNumber: string = '0862004185';
   password: string = '12345678';
 
+  roles: Role[] = [];
+  rememberMe: boolean = true;
+  selectedRole: Role | undefined;
+
   constructor(
     private router: Router,
     private userService: UserService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private roleService: RoleService
   ) {}
 
   onPhoneNumberChange() {}
+
+  ngOnInit() {
+    debugger;
+    this.roleService.getRoles().subscribe({
+      next: (roles: Role[]) => {
+        debugger;
+        this.roles = roles;
+        this.selectedRole = roles.length > 0 ? roles[0] : undefined;
+      },
+      error: (error: any) => {
+        debugger;
+        console.error('Error getting roles: ', error);
+      },
+    });
+  }
 
   login() {
     debugger;
@@ -36,13 +59,16 @@ export class LoginComponent {
     const loginDTO: LoginDTO = {
       phone_number: this.phoneNumber,
       password: this.password,
+      role_id: this.selectedRole?.id ?? 1,
     };
 
     this.userService.login(loginDTO).subscribe({
       next: (response: LoginResponse) => {
         debugger;
         const { token } = response;
-        this.tokenService.setToken(token);
+        if (this.rememberMe) {
+          this.tokenService.setToken(token);
+        }
         // this.router.navigate(['/login']);
       },
       complete: () => {
@@ -50,7 +76,7 @@ export class LoginComponent {
       },
       error: (error: any) => {
         debugger;
-        alert(`Cannot register, error: ${error.error}`);
+        alert(`Cannot login, error: ${error.error}`);
       },
     });
   }
