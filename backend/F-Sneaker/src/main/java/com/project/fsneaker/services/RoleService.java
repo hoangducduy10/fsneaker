@@ -14,7 +14,7 @@ public class RoleService implements IRoleService{
     private final RoleRepository roleRepository;
 
     @Override
-    public List<Role> getAllCategories() {
+    public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }
 }

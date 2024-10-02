@@ -2,6 +2,7 @@ package com.project.fsneaker.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,5 +22,9 @@ public class UserLoginDTO {
 
     @NotBlank(message = "Password cannot be empty!")
     private String password;
+
+    @NotNull(message = "Role ID is required!")
+    @JsonProperty("role_id")
+    private Long roleId;
 
 }
