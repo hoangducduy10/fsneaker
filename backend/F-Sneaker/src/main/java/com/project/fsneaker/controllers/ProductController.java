@@ -2,6 +2,7 @@ package com.project.fsneaker.controllers;
 
 import com.github.javafaker.Faker;
 import com.project.fsneaker.components.LocalizationUtils;
+import com.project.fsneaker.configurations.FileStorageProperties;
 import com.project.fsneaker.dtos.ProductDTO;
 import com.project.fsneaker.dtos.ProductImageDTO;
 import com.project.fsneaker.models.Product;
@@ -34,7 +35,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -51,24 +51,25 @@ public class ProductController {
 
     private final IProductService productService;
     private final LocalizationUtils localizationUtils;
+    private final FileStorageProperties fileStorageProperties;
 
     @GetMapping("")
     public ResponseEntity<ProductListResponse> getProducts(
             @RequestParam("page") int page,
             @RequestParam("limit") int limit
     ) {
-        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("createdAt").descending());
-        Page<ProductResponse> products = productService.getAllProducts(pageRequest);
-        int totalPages = products.getTotalPages();
-        List<ProductResponse> productsList = products.getContent();
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").ascending());
+        Page<ProductResponse> productPage = productService.getAllProducts(pageRequest);
+        int totalPages = productPage.getTotalPages();
+        List<ProductResponse> products = productPage.getContent();
         return ResponseEntity.ok(ProductListResponse.builder()
-                .productList(productsList)
+                .products(products)
                 .totalPages(totalPages)
                 .build());
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<?> addProduct(
+    public ResponseEntity<?> createProduct(
             @Valid @RequestBody ProductDTO productDTO,
             BindingResult bindingResult
     ) {
@@ -86,6 +87,7 @@ public class ProductController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
     @PostMapping(value = "uploads/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> upLoadImage(
@@ -136,10 +138,9 @@ public class ProductController {
     @GetMapping("/images/{imageName}")
     public ResponseEntity<?> viewImage(@PathVariable String imageName) {
         try {
-            Path imagePath = Paths.get("D:\\F-Sneaker\\fsneaker\\backend\\F-Sneaker\\uploads\\" + imageName);
+//            Path imagePath = Paths.get("D:/F-Sneaker/fsneaker/backend/F-Sneaker/uploads/" + imageName);
+            Path imagePath = Paths.get(fileStorageProperties.getUploadDir(), imageName);
             UrlResource resource = new UrlResource(imagePath.toUri());
-            System.out.println("Image path: " + imagePath.toAbsolutePath());
-            System.out.println("Resource URL: " + imagePath.toUri());
             if(resource.exists()){
                 return ResponseEntity.ok()
                         .contentType(MediaType.IMAGE_JPEG)
@@ -161,7 +162,8 @@ public class ProductController {
 //        Thêm UUID vào trc tên file để secure tên file là duy nhất
         String uniqueFileName = UUID.randomUUID().toString() + "_" + fileName;
 //        Đường dẫn đến thư mục lưu file
-        Path uploadDir = Paths.get("uploads");
+//        Path uploadDir = Paths.get("D:/F-Sneaker/fsneaker/backend/F-Sneaker/uploads");
+        Path uploadDir = Paths.get(fileStorageProperties.getUploadDir());
 //        Check và tạo thư mục nếu nó ko exist
         if (!Files.exists(uploadDir)){
             Files.createDirectory(uploadDir);
@@ -172,6 +174,7 @@ public class ProductController {
         Files.copy(file.getInputStream(), destiantion, StandardCopyOption.REPLACE_EXISTING);
         return uniqueFileName;
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getProductById(@PathVariable("id") Long productId) {

@@ -8,6 +8,7 @@ import com.project.fsneaker.models.Role;
 import com.project.fsneaker.models.User;
 import com.project.fsneaker.repositories.RoleRepository;
 import com.project.fsneaker.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +30,7 @@ public class UserService implements IUserService {
     private final AuthenticationManager authenticationManager;
 
     @Override
+    @Transactional
     public User createUser(UserDTO userDTO) throws Exception {
         String phoneNumber = userDTO.getPhoneNumber();
         if(userRepository.existsByPhoneNumber(phoneNumber)) {

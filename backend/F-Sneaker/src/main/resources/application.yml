@@ -28,3 +28,5 @@ api:
 jwt:
   expiration: 2592000   #30 days
   secretKey: or88cdmg8aVmDnJYu7tx+IYcpRXKWUxPAZnt6Uokkys=
+file:
+  upload-dir: F-Sneaker/uploads

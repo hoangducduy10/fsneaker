@@ -8,6 +8,7 @@ import com.project.fsneaker.models.User;
 import com.project.fsneaker.repositories.OrderRepository;
 import com.project.fsneaker.repositories.UserRepository;
 import com.project.fsneaker.responses.OrderResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
 import org.modelmapper.ModelMapper;
@@ -27,6 +28,7 @@ public class OrderService implements IOrderService {
     private final ModelMapper modelMapper;
 
     @Override
+    @Transactional
     public OrderResponse createOrder(OrderDTO orderDTO) throws Exception {
         User user = userRepository.findById(orderDTO.getUserId()).orElseThrow(
                 () -> new DataNotFoundException("Cannot find user with id: "+orderDTO.getUserId()));
@@ -54,6 +56,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    @Transactional
     public Order updateOrder(Long id, OrderDTO orderDTO) throws DataNotFoundException {
         Order existingOrder = orderRepository.findById(id).orElseThrow(
                 () -> new DataNotFoundException("Cannot find order with id: "+id));
@@ -67,6 +70,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    @Transactional
     public void deleteOrder(Long id) {
         Order order = orderRepository.findById(id).orElse(null);
         // Ko xoa cung => xoa mem
