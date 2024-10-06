@@ -8,7 +8,7 @@ import { RegisterComponent } from './app/components/register/register.component'
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { TokenInterceptor } from './app/interceptors/token.interceptor';
 
-bootstrapApplication(LoginComponent, {
+bootstrapApplication(HomeComponent, {
   providers: [
     provideHttpClient(),
     {

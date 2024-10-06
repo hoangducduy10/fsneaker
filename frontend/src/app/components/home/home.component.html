@@ -17,142 +17,14 @@
     </select>
   </div>
   <div class="row">
-    <div class="col-lg-4 col-md-6">
+    <div class="col-lg-4 col-md-6" *ngFor="let product of products.slice(0, 9)">
       <div class="product-item">
-        <img
-          src="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          class="product-image"
-        />
-        <h3 class="product-name">Giày 1</h3>
+        <img [src]="product.url" alt="Product Image" class="product-image" />
+        <h3 class="product-name">{{ product.name }}</h3>
         <p class="product-description">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          {{ product.description }}
         </p>
-        <p class="product-price">Giá: <del>20000đ</del> 10000đ</p>
-        <div class="product-rating">
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-solid fa-star-half"></i>
-        </div>
-        <div class="product-actions">
-          <button class="btn btn-primary">Thêm vào giỏ hàng</button>
-          <span class="space-x"></span>
-          <button class="btn btn-success">Mua ngay</button>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-      <div class="product-item">
-        <img
-          src="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          class="product-image"
-        />
-        <h3 class="product-name">Giày 1</h3>
-        <p class="product-description">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        </p>
-        <p class="product-price">Giá: <del>20000đ</del> 10000đ</p>
-        <div class="product-rating">
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-solid fa-star-half"></i>
-        </div>
-        <div class="product-actions">
-          <button class="btn btn-primary">Thêm vào giỏ hàng</button>
-          <span class="space-x"></span>
-          <button class="btn btn-success">Mua ngay</button>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-      <div class="product-item">
-        <img
-          src="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          class="product-image"
-        />
-        <h3 class="product-name">Giày 1</h3>
-        <p class="product-description">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        </p>
-        <p class="product-price">Giá: <del>20000đ</del> 10000đ</p>
-        <div class="product-rating">
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-solid fa-star-half"></i>
-        </div>
-        <div class="product-actions">
-          <button class="btn btn-primary">Thêm vào giỏ hàng</button>
-          <span class="space-x"></span>
-          <button class="btn btn-success">Mua ngay</button>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-      <div class="product-item">
-        <img
-          src="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          class="product-image"
-        />
-        <h3 class="product-name">Giày 1</h3>
-        <p class="product-description">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        </p>
-        <p class="product-price">Giá: <del>20000đ</del> 10000đ</p>
-        <div class="product-rating">
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-solid fa-star-half"></i>
-        </div>
-        <div class="product-actions">
-          <button class="btn btn-primary">Thêm vào giỏ hàng</button>
-          <span class="space-x"></span>
-          <button class="btn btn-success">Mua ngay</button>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-      <div class="product-item">
-        <img
-          src="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          class="product-image"
-        />
-        <h3 class="product-name">Giày 1</h3>
-        <p class="product-description">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        </p>
-        <p class="product-price">Giá: <del>20000đ</del> 10000đ</p>
-        <div class="product-rating">
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-sharp fa-solid fa-star"></i>
-          <i class="fa-solid fa-star-half"></i>
-        </div>
-        <div class="product-actions">
-          <button class="btn btn-primary">Thêm vào giỏ hàng</button>
-          <span class="space-x"></span>
-          <button class="btn btn-success">Mua ngay</button>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-      <div class="product-item">
-        <img
-          src="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          class="product-image"
-        />
-        <h3 class="product-name">Giày 1</h3>
-        <p class="product-description">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        </p>
-        <p class="product-price">Giá: <del>20000đ</del> 10000đ</p>
+        <p class="product-price">Giá: {{ product.price }}$</p>
         <div class="product-rating">
           <i class="fa-sharp fa-solid fa-star"></i>
           <i class="fa-sharp fa-solid fa-star"></i>
@@ -168,5 +40,64 @@
       </div>
     </div>
   </div>
+  <!-- <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <li class="page-item" *ngIf="currentPage > 1">
+        <a class="page-link" href="#" (click)="onPageChange(1)">First</a>
+      </li>
+      <li class="page-item" *ngIf="currentPage > 1">
+        <a class="page-link" href="#" (click)="onPageChange(currentPage - 1)"
+          >Previous</a
+        >
+      </li>
+      <ng-container *ngFor="let page of visiblePages">
+        <li class="page-item" [ngClass]="{ active: page === currentPage }">
+          <a class="page-link" href="#" (click)="onPageChange(page)">{{
+            page
+          }}</a>
+        </li>
+      </ng-container>
+      <li class="page-item" *ngIf="currentPage < totalPages">
+        <a class="page-link" href="#" (click)="onPageChange(currentPage + 1)"
+          >Next</a
+        >
+      </li>
+
+      <li class="page-item" *ngIf="currentPage < totalPages">
+        <a class="page-link" href="#" (click)="onPageChange(totalPages)"
+          >Last</a
+        >
+      </li>
+    </ul>
+  </nav> -->
+  <nav aria-label="Page navigation" class="pagination-container">
+    <ul class="pagination">
+      <li class="page-item" *ngIf="currentPage > 1">
+        <a class="page-link" href="#" (click)="onPageChange(1)">First</a>
+      </li>
+      <li class="page-item" *ngIf="currentPage > 1">
+        <a class="page-link" href="#" (click)="onPageChange(currentPage - 1)"
+          >Previous</a
+        >
+      </li>
+      <ng-container *ngFor="let page of visiblePages">
+        <li class="page-item" [ngClass]="{ active: page === currentPage }">
+          <a class="page-link" href="#" (click)="onPageChange(page)">{{
+            page
+          }}</a>
+        </li>
+      </ng-container>
+      <li class="page-item" *ngIf="currentPage < totalPages">
+        <a class="page-link" href="#" (click)="onPageChange(currentPage + 1)"
+          >Next</a
+        >
+      </li>
+      <li class="page-item" *ngIf="currentPage < totalPages">
+        <a class="page-link" href="#" (click)="onPageChange(totalPages)"
+          >Last</a
+        >
+      </li>
+    </ul>
+  </nav>
 </div>
 <app-footer />
