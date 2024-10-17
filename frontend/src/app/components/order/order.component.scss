@@ -1,53 +1,39 @@
 .container {
   color: white;
 }
-.intro-section {
-  text-align: center;
-  color: white;
+h2 {
+  font-weight: bold;
+  color: rgba(219, 105, 250, 0.981);
+}
+h4 {
+  font-weight: bold;
+  color: rgb(255, 64, 180);
+}
+.confirmation-container {
+  margin: 50px auto;
   padding: 20px;
-}
-.product-header {
-  color: rgb(233, 66, 176);
-}
-.form-control {
-  background-color: rgb(233, 66, 176);
-}
-.form-control {
-  background-color: rgb(19, 23, 42);
-  border: 1px solid rgb(29, 33, 54);
-  color: white;
-}
-.form-control:focus {
-  border-color: white;
-  background-color: rgb(19, 23, 42);
-}
-.form-label {
-  color: white;
-}
-.product-order {
-  color: rgb(105, 244, 181);
-}
-table {
-  width: 100%;
+  max-width: 600px;
   border-radius: 10px;
-  border: none;
-  border-collapse: separate;
-  border: 1px solid white;
-  border-spacing: 0;
-  background-color: rgb(12, 13, 54);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
 }
-th,
-td {
-  padding: 10px;
+.confirmation-container h1 {
   text-align: center;
+}
+.infor {
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+.cart {
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
 }
 .product-info {
   display: flex;
   align-items: center;
 }
 .product-image {
-  width: 100px;
-  height: 100px;
+  max-width: 100px;
+  max-height: auto;
   border-radius: 5px;
   margin-right: 10px;
 }
@@ -55,9 +41,39 @@ td {
   color: white;
   margin-right: 10px;
 }
+table {
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid white;
+  background-color: rgb(12, 13, 54);
+}
+th,
+td {
+  padding: 10px;
+  text-align: center;
+}
 .btn-gradient {
-  background: linear-gradient(to right, rgb(225, 64, 180), rgb(126, 43, 237));
+  background: linear-gradient(to right, rgb(255, 64, 180), rgb(126, 43, 237));
   color: white;
   border-radius: 30px;
   width: 200px;
+}
+
+tbody tr {
+  border-bottom: none;
+}
+
+tbody td {
+  border-bottom: 1px solid white;
+}
+
+thead th {
+  border-bottom: 2px solid white;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
 }

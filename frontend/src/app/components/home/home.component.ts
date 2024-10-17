@@ -45,11 +45,11 @@ export class HomeComponent implements OnInit {
   getCategories(page: number, limit: number) {
     this.categoryService.getCategories(page, limit).subscribe({
       next: (categories: Category[]) => {
-        debugger;
+        // debugger;
         this.categories = categories;
       },
       complete: () => {
-        debugger;
+        // debugger;
       },
       error: (error: any) => {
         console.error('Error fetching categories: ', error);
@@ -60,7 +60,6 @@ export class HomeComponent implements OnInit {
   searchProducts() {
     this.currentPage = 1;
     this.itemsPerPage = 9;
-    debugger;
     console.log('Keyword: ', this.keyword);
     this.getProducts(
       this.keyword,
@@ -76,15 +75,15 @@ export class HomeComponent implements OnInit {
     page: number,
     limit: number
   ) {
-    debugger;
     this.productService
       .getProducts(keyword, selectedCategoryId, page, limit)
       .subscribe({
         next: (response: any) => {
-          debugger;
           response.products.forEach((product: Product) => {
             product.url = `${environment.apiBaseUrl}/products/images/${product.thumbnail}`;
           });
+          console.log({ response });
+
           this.products = response.products;
           this.totalPages = response.totalPages;
           this.visiblePages = this.generateVisiblePageArray(
@@ -93,17 +92,16 @@ export class HomeComponent implements OnInit {
           );
         },
         complete: () => {
-          debugger;
+          console.log('okoko');
         },
         error: (error: any) => {
-          debugger;
           console.error('Error fetching products:', error);
         },
       });
   }
 
   onPageChange(page: number) {
-    debugger;
+    // debugger;
     this.currentPage = page;
     this.getProducts(
       this.keyword,

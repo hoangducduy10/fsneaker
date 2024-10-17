@@ -3,9 +3,9 @@ import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
 
 @Component({
-  selector: 'app-order-confirm',
+  selector: 'app-order',
   standalone: true,
-  imports: [FooterComponent, HeaderComponent],
+  imports: [HeaderComponent, FooterComponent],
   templateUrl: './order-confirm.component.html',
   styleUrl: './order-confirm.component.scss',
 })

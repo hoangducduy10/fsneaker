@@ -11,13 +11,18 @@ import { TokenService } from '../services/token.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(private tokenService: TokenService) {}
+  constructor(private tokenService: TokenService) {
+    console.log('TokenInterceptor initialized');
+  }
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    console.log('Interceptor triggered');
+    debugger;
     const token = this.tokenService.getToken();
+    console.log('Token in Interceptor:', token);
     if (token) {
       req = req.clone({
         setHeaders: {
