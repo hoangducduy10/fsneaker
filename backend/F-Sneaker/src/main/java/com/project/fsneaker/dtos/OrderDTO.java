@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,7 +40,7 @@ public class OrderDTO {
 
     @JsonProperty("total_money")
     @Min(value = 0, message = "Total money must be >= 0!")
-    private Integer totalMoney;
+    private Float totalMoney;
 
     @JsonProperty("shipping_method")
     private String shippingMethod;
@@ -53,5 +53,8 @@ public class OrderDTO {
 
     @JsonProperty("payment_method")
     private String paymentMethod;
+
+    @JsonProperty("cart_items")
+    private List<CartItemDTO> cartItems;
 
 }

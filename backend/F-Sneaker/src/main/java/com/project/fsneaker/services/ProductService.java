@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,15 +45,24 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product getProductById(long id) throws Exception {
-        return productRepository.findById(id).orElseThrow(
-                () -> new DataNotFoundException("Cannot find product with id: "+id)
-        );
+    public Product getProductById(long productId) throws Exception {
+        Optional<Product> optionalProduct = productRepository.getDetailProduct(productId);
+        if(optionalProduct.isPresent()){
+            return optionalProduct.get();
+        }
+        throw new DataNotFoundException("Cannot find product with id: "+productId);
+    }
+
+    @Override
+    public List<Product> findProductsByIds(List<Long> productIds) {
+        return productRepository.findProductsByIds(productIds);
     }
 
     @Override
     public Page<ProductResponse> getAllProducts(String keyword, Long categoryId, PageRequest pageRequest) {
         Page<Product> productPage;
+
+
         productPage = productRepository.searchProducts(categoryId, keyword, pageRequest);
         return productPage.map(ProductResponse::fromProduct);
     }
@@ -97,7 +107,6 @@ public class ProductService implements IProductService {
                 .product(existingProduct)
                 .imageUrl(productImageDTO.getImageUrl())
                 .build();
-        // Ko cho insert > 5 images cho 1 product
         int size = productImageRepository.findByProductId(productId).size();
         if(size >= ProductImage.MAXIMUM_IMAGES_PER_PRODUCT){
             throw new InvalidParamException("Number of images must be <= "+ProductImage.MAXIMUM_IMAGES_PER_PRODUCT);

@@ -30,7 +30,7 @@ public class OrderController {
     private final LocalizationUtils localizationUtils;
 
     @PostMapping("")
-    public ResponseEntity<?> addOrder(
+    public ResponseEntity<?> createOrder(
             @RequestBody @Valid OrderDTO orderDTO,
             BindingResult bindingResult
     ) {

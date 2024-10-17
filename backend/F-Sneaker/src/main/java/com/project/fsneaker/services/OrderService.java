@@ -1,11 +1,16 @@
 package com.project.fsneaker.services;
 
+import com.project.fsneaker.dtos.CartItemDTO;
 import com.project.fsneaker.dtos.OrderDTO;
 import com.project.fsneaker.exceptions.DataNotFoundException;
 import com.project.fsneaker.models.Order;
+import com.project.fsneaker.models.OrderDetail;
 import com.project.fsneaker.models.OrderStatus;
+import com.project.fsneaker.models.Product;
 import com.project.fsneaker.models.User;
+import com.project.fsneaker.repositories.OrderDetailRepository;
 import com.project.fsneaker.repositories.OrderRepository;
+import com.project.fsneaker.repositories.ProductRepository;
 import com.project.fsneaker.repositories.UserRepository;
 import com.project.fsneaker.responses.OrderResponse;
 import jakarta.transaction.Transactional;
@@ -15,6 +20,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +32,8 @@ public class OrderService implements IOrderService {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
+    private final ProductRepository productRepository;
+    private final OrderDetailRepository orderDetailRepository;
 
     @Override
     @Transactional
@@ -45,8 +53,30 @@ public class OrderService implements IOrderService {
         }
         order.setShippingDate(shippingDate);
         order.setActive(true);
+        order.setTotalMoney(orderDTO.getTotalMoney());
         orderRepository.save(order);
-        modelMapper.typeMap(Order.class, OrderResponse.class);
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        for (CartItemDTO cartItemDTO : orderDTO.getCartItems()) {
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setOrder(order);
+
+            // Lay thong tin product tu cartItemDTO
+            Long productId = cartItemDTO.getProductId();
+            int quantity = cartItemDTO.getQuantity();
+
+            // Tim thong tin product tu db
+            Product product = productRepository.findById(productId)
+                    .orElseThrow(() -> new DataNotFoundException("Cannot find product with id: "+productId));
+
+            // Set thong tin cho OrderDetail
+            orderDetail.setProduct(product);
+            orderDetail.setNumberOfProducts(quantity);
+            orderDetail.setPrice(product.getPrice());
+
+            // Them OrderDetail vao danh sach
+            orderDetails.add(orderDetail);
+        }
+        orderDetailRepository.saveAll(orderDetails);
         return modelMapper.map(order, OrderResponse.class);
     }
 
