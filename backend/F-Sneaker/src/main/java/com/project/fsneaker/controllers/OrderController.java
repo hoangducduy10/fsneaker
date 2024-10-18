@@ -52,7 +52,10 @@ public class OrderController {
     @GetMapping("/user/{user_id}")
     public ResponseEntity<?> getOrdersByUserId(@PathVariable("user_id") Long userId) {
         try {
-            List<OrderResponse> orderResponseList = orderService.findByUserId(userId);
+            List<Order> orderList  = orderService.findByUserId(userId);
+            List<OrderResponse> orderResponseList = orderList.stream()
+                    .map(OrderResponse::fromOrder)
+                    .toList();
             return ResponseEntity.ok(orderResponseList);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -62,8 +65,9 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderByOrderId(@PathVariable("id") Long orderId) {
         try {
-            OrderResponse existingOrder = orderService.getOrderById(orderId);
-            return ResponseEntity.ok(existingOrder);
+            Order existingOrder = orderService.getOrderById(orderId);
+            OrderResponse orderResponse = OrderResponse.fromOrder(existingOrder);
+            return ResponseEntity.ok(orderResponse);
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

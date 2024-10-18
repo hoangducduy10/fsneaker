@@ -45,7 +45,7 @@ public class OrderService implements IOrderService {
         Order order = new Order();
         modelMapper.map(orderDTO, order);
         order.setUser(user);
-        order.setOrderDate(new Date());
+        order.setOrderDate(LocalDate.now());
         order.setStatus(OrderStatus.PENDING);
         LocalDate shippingDate = orderDTO.getShippingDate() == null ? LocalDate.now() : orderDTO.getShippingDate();
         if(shippingDate.isBefore(LocalDate.now())){
@@ -81,8 +81,8 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public OrderResponse getOrderById(Long id) {
-        return orderRepository.findByOrderId(id).orElse(null);
+    public Order getOrderById(Long id) {
+        return orderRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public List<OrderResponse> findByUserId(Long userId) {
+    public List<Order> findByUserId(Long userId) {
         return orderRepository.findByUserId(userId);
     }
 }

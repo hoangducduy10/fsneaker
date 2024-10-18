@@ -1,6 +1,8 @@
 package com.project.fsneaker.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.project.fsneaker.models.Order;
+import com.project.fsneaker.models.OrderDetail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +11,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,7 +38,7 @@ public class OrderResponse extends BaseResponse {
     private String note;
 
     @JsonProperty("order_date")
-    private Date orderDate;
+    private LocalDate orderDate;
 
     private String status;
 
@@ -57,28 +60,28 @@ public class OrderResponse extends BaseResponse {
     @JsonProperty("payment_method")
     private String paymentMethod;
 
-    private Boolean active; // thuoc ve admin
+    @JsonProperty("order_details")
+    private List<OrderDetail> orderDetails;
 
-    public OrderResponse(Long id, Long userId, String fullName, String email, String phoneNumber,
-                         String address, String note, Date orderDate, String status,
-                         Float totalMoney, String shippingMethod, LocalDate shippingDate,
-                         String shippingAddress, String trackingNumber, String paymentMethod, Boolean active) {
-        this.id = id;
-        this.userId = userId;
-        this.fullName = fullName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.note = note;
-        this.orderDate = orderDate;
-        this.status = status;
-        this.totalMoney = totalMoney;
-        this.shippingMethod = shippingMethod;
-        this.shippingDate = shippingDate;
-        this.shippingAddress = shippingAddress;
-        this.trackingNumber = trackingNumber;
-        this.paymentMethod = paymentMethod;
-        this.active = active;
+    public static OrderResponse fromOrder(Order order) {
+        return OrderResponse.builder()
+                .id(order.getId())
+                .userId(order.getId())
+                .fullName(order.getFullname())
+                .phoneNumber(order.getPhoneNumber())
+                .email(order.getEmail())
+                .address(order.getAddress())
+                .note(order.getNote())
+                .orderDate(order.getOrderDate())
+                .status(order.getStatus())
+                .totalMoney(order.getTotalMoney())
+                .shippingMethod(order.getShippingMethod())
+                .shippingAddress(order.getShippingAddress())
+                .shippingDate(order.getShippingDate())
+                .trackingNumber(order.getTrackingNumber())
+                .paymentMethod(order.getPaymentMethod())
+                .orderDetails(order.getOrderDetails())
+                .build();
     }
 
 }

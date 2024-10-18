@@ -11,12 +11,12 @@ public interface IOrderService {
 
     OrderResponse createOrder(OrderDTO orderDTO) throws Exception;
 
-    OrderResponse getOrderById(Long id);
+    Order getOrderById(Long id);
 
     Order updateOrder(Long id, OrderDTO orderDTO) throws DataNotFoundException;
 
     void deleteOrder(Long id);
 
-    List<OrderResponse> findByUserId(Long userId);
+    List<Order> findByUserId(Long userId);
 
 }
