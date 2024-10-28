@@ -1,17 +1,14 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { HomeComponent } from './app/components/home/home.component';
-import { DetailProductComponent } from './app/components/detail-product/detail-product.component';
-import { OrderDetailComponent } from './app/components/order-detail/order.detail.component';
-import { OrderComponent } from './app/components/order/order.component';
-import { LoginComponent } from './app/components/login/login.component';
-import { RegisterComponent } from './app/components/register/register.component';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { TokenInterceptor } from './app/interceptors/token.interceptor';
-import { importProvidersFrom } from '@angular/core';
 import { TokenService } from './app/services/token.service';
+import { AppComponent } from './app/app/app.component';
+import { routes } from './app-routing.module';
+import { provideRouter } from '@angular/router';
 
-bootstrapApplication(OrderDetailComponent, {
+bootstrapApplication(AppComponent, {
   providers: [
+    provideRouter(routes),
     provideHttpClient(),
     TokenService,
     {

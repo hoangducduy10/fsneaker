@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { ProductService } from '../../services/product.service';
-import { CategoryService } from '../../services/category.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../models/product';
 import { environment } from '../../environments/environment';
 import { ProductImage } from '../../models/product.image';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart.service';
+import { OrderService } from '../../services/order.service';
+import { OrderDTO } from '../../dtos/user/order/order.dto';
 
 @Component({
   selector: 'app-detail-product',
@@ -22,43 +23,59 @@ export class DetailProductComponent implements OnInit {
   productId: number = 0;
   currentImageIndex: number = 0;
   quantity: number = 1;
+  cartItems: { product: Product; quantity: number }[] = [];
+  couponCode: string = '';
+  totalAmount: number = 0;
+  orderData: OrderDTO = {
+    user_id: 2,
+    fullname: '',
+    email: '',
+    phone_number: '',
+    address: '',
+    note: '',
+    total_money: 10,
+    payment_method: 'cod',
+    shipping_method: 'express',
+    coupon_code: '',
+    cart_items: [],
+  };
 
   constructor(
-    private productService: ProductService, // private router: Router, // private categoryService: CategoryService // private activatedRoute: ActivatedRoute
-    private cartService: CartService
+    private productService: ProductService,
+    private cartService: CartService,
+    private activatedRoute: ActivatedRoute,
+    private orderService: OrderService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    debugger;
-    const idParam = 8;
-    if (idParam !== null) {
-      this.productId = +idParam;
-    }
-    if (!isNaN(this.productId)) {
-      this.productService.getDetailProduct(this.productId).subscribe({
-        next: (response: any) => {
-          debugger;
-          if (response.product_images && response.product_images.length > 0) {
-            response.product_images.forEach((product_image: ProductImage) => {
-              product_image.imageUrl = `${environment.apiBaseUrl}/products/images/${product_image.imageUrl}`;
-            });
-          }
+    this.activatedRoute.params.subscribe((params) => {
+      const idParam = +params['id'];
+      if (!isNaN(idParam)) {
+        this.productId = idParam;
+        this.getProductDetail(this.productId);
+      } else {
+        console.error('Invalid productId: ', idParam);
+      }
+    });
+  }
 
-          debugger;
-          this.product = response;
-          this.showImage(0);
-        },
-        complete: () => {
-          debugger;
-        },
-        error: (error: any) => {
-          debugger;
-          console.error('Error fetching detail: ', error);
-        },
-      });
-    } else {
-      console.error('Invalid productId: ', idParam);
-    }
+  getProductDetail(productId: number) {
+    this.productService.getDetailProduct(productId).subscribe({
+      next: (response: any) => {
+        if (response.product_images && response.product_images.length > 0) {
+          response.product_images.forEach((product_image: ProductImage) => {
+            product_image.imageUrl = `${environment.apiBaseUrl}/products/images/${product_image.imageUrl}`;
+          });
+        }
+
+        this.product = response;
+        this.showImage(0);
+      },
+      error: (error: any) => {
+        console.error('Error fetching detail: ', error);
+      },
+    });
   }
 
   showImage(index: number): void {
@@ -95,8 +112,9 @@ export class DetailProductComponent implements OnInit {
     debugger;
     if (this.product) {
       this.cartService.addToCart(this.product.id, this.quantity);
+      alert('Added to cart successfully!');
     } else {
-      console.error('Cannot add to cart because the product is null!');
+      alert('Cannot add to cart because the product is null!');
     }
   }
 
@@ -109,5 +127,35 @@ export class DetailProductComponent implements OnInit {
     }
   }
 
-  buyNow(): void {}
+  calculateTotal(): void {
+    this.totalAmount = this.cartItems.reduce(
+      (total, item) => total + item.product.price * item.quantity,
+      0
+    );
+  }
+
+  buyNow() {
+    if (this.product) {
+      this.orderData.cart_items = [
+        {
+          product_id: this.product.id,
+          quantity: this.quantity,
+        },
+      ];
+      this.orderData.total_money = this.product.price * this.quantity;
+
+      this.orderService.placeOrder(this.orderData).subscribe({
+        next: (orderResponse: any) => {
+          const orderId = orderResponse.id;
+          this.router.navigate(['/orders', orderId]);
+        },
+        error: (error: any) => {
+          console.error('Error creating order:', error);
+          alert('Failed to create order!');
+        },
+      });
+    } else {
+      alert('Product not found!');
+    }
+  }
 }

@@ -7,7 +7,7 @@
     <input
       type="text"
       class="form-control search-input"
-      placeholder="Tìm sản phẩm..."
+      placeholder="Search..."
       [(ngModel)]="keyword"
     />
     <select
@@ -26,12 +26,17 @@
   <div class="row">
     <div class="col-lg-4 col-md-6" *ngFor="let product of products">
       <div class="product-item">
-        <img [src]="product.url" alt="Product Image" class="product-image" />
+        <img
+          [src]="product.url"
+          alt="Product Image"
+          class="product-image"
+          (click)="onProductClick(product.id)"
+        />
         <h3 class="product-name">{{ product.name }}</h3>
         <p class="product-description">
           {{ product.description }}
         </p>
-        <p class="product-price">Giá: {{ product.price }}$</p>
+        <p class="product-price">Price: {{ product.price }}$</p>
         <div class="product-rating">
           <i class="fa-sharp fa-solid fa-star"></i>
           <i class="fa-sharp fa-solid fa-star"></i>
@@ -40,9 +45,9 @@
           <i class="fa-solid fa-star-half"></i>
         </div>
         <div class="product-actions">
-          <button class="btn btn-primary">Thêm vào giỏ hàng</button>
+          <button class="btn btn-primary">Add to cart</button>
           <span class="space-x"></span>
-          <button class="btn btn-success">Mua ngay</button>
+          <button class="btn btn-success">Buy now</button>
         </div>
       </div>
     </div>

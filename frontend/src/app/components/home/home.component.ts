@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +30,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -45,11 +47,11 @@ export class HomeComponent implements OnInit {
   getCategories(page: number, limit: number) {
     this.categoryService.getCategories(page, limit).subscribe({
       next: (categories: Category[]) => {
-        // debugger;
+        debugger;
         this.categories = categories;
       },
       complete: () => {
-        // debugger;
+        debugger;
       },
       error: (error: any) => {
         console.error('Error fetching categories: ', error);
@@ -92,7 +94,7 @@ export class HomeComponent implements OnInit {
           );
         },
         complete: () => {
-          console.log('okoko');
+          debugger;
         },
         error: (error: any) => {
           console.error('Error fetching products:', error);
@@ -101,7 +103,7 @@ export class HomeComponent implements OnInit {
   }
 
   onPageChange(page: number) {
-    // debugger;
+    debugger;
     this.currentPage = page;
     this.getProducts(
       this.keyword,
@@ -124,5 +126,10 @@ export class HomeComponent implements OnInit {
     return new Array(endPage - startPage + 1)
       .fill(0)
       .map((_, index) => startPage + index);
+  }
+
+  onProductClick(productId: number) {
+    debugger;
+    this.router.navigate(['/products', productId]);
   }
 }

@@ -15,7 +15,6 @@ import { ProductService } from '../../services/product.service';
 import { environment } from '../../environments/environment';
 import { OrderService } from '../../services/order.service';
 import { OrderDTO } from '../../dtos/user/order/order.dto';
-import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-order',
@@ -127,7 +126,7 @@ export class OrderComponent implements OnInit {
       this.orderService.placeOrder(this.orderData).subscribe({
         next: (response) => {
           debugger;
-          console.log('Đặt hàng thành công!');
+          alert('Đặt hàng thành công!');
         },
         complete: () => {
           debugger;
@@ -135,6 +134,7 @@ export class OrderComponent implements OnInit {
         },
         error: (error: any) => {
           debugger;
+          alert('Lỗi khi đặt hàng!');
           console.log('Lỗi khi đặt hàng!', error);
         },
       });
