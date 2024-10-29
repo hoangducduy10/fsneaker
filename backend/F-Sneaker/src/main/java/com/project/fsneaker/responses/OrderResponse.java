@@ -28,13 +28,16 @@ public class OrderResponse extends BaseResponse {
     @JsonProperty("fullname")
     private String fullName;
 
+    @JsonProperty("email")
     private String email;
 
     @JsonProperty("phone_number")
     private String phoneNumber;
 
+    @JsonProperty("fullname")
     private String address;
 
+    @JsonProperty("note")
     private String note;
 
     @JsonProperty("order_date")

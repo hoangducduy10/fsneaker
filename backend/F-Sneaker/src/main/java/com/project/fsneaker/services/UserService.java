@@ -76,8 +76,27 @@ public class UserService implements IUserService {
         if(optionalRole.isEmpty() || !roleId.equals(user.getRole().getId())){
             throw new DataNotFoundException("Role not found!");
         }
+        if(!optionalUser.get().isActive()){
+            throw new DataNotFoundException("User is not active!");
+        }
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(phoneNumber, password, user.getAuthorities());
         authenticationManager.authenticate(authenticationToken);
         return jwtTokenUtil.generateToken(user);
     }
+
+    @Override
+    public User getUserDetailsFromToken(String token) throws Exception {
+        if(jwtTokenUtil.isTokenExpired(token)){
+            throw new Exception("Token is expired!");
+        }
+        String phoneNumber = jwtTokenUtil.extractPhoneNumber(token);
+        Optional<User> user = userRepository.findByPhoneNumber(phoneNumber);
+        if(user.isPresent()){
+            return user.get();
+        }else {
+            throw new DataNotFoundException("User not found!");
+        }
+    }
+
+
 }

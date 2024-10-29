@@ -35,7 +35,9 @@ public class JwtTokenUtils {
         // properties goi la claims
         Map<String, Object> claims = new HashMap<>();
 //        this.generateSecretKey();
+//      claims de dua thuoc tinh vao token
         claims.put("phoneNumber", user.getPhoneNumber());
+        claims.put("userId", user.getId());
         try {
             String token = Jwts.builder()
                     .setClaims(claims)
