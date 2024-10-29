@@ -26,19 +26,6 @@ export class DetailProductComponent implements OnInit {
   cartItems: { product: Product; quantity: number }[] = [];
   couponCode: string = '';
   totalAmount: number = 0;
-  orderData: OrderDTO = {
-    user_id: 2,
-    fullname: '',
-    email: '',
-    phone_number: '',
-    address: '',
-    note: '',
-    total_money: 10,
-    payment_method: 'cod',
-    shipping_method: 'express',
-    coupon_code: '',
-    cart_items: [],
-  };
 
   constructor(
     private productService: ProductService,
@@ -135,27 +122,6 @@ export class DetailProductComponent implements OnInit {
   }
 
   buyNow() {
-    if (this.product) {
-      this.orderData.cart_items = [
-        {
-          product_id: this.product.id,
-          quantity: this.quantity,
-        },
-      ];
-      this.orderData.total_money = this.product.price * this.quantity;
-
-      this.orderService.placeOrder(this.orderData).subscribe({
-        next: (orderResponse: any) => {
-          const orderId = orderResponse.id;
-          this.router.navigate(['/orders', orderId]);
-        },
-        error: (error: any) => {
-          console.error('Error creating order:', error);
-          alert('Failed to create order!');
-        },
-      });
-    } else {
-      alert('Product not found!');
-    }
+    this.router.navigate(['/orders']);
   }
 }

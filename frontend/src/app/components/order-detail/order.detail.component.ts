@@ -4,7 +4,7 @@ import { HeaderComponent } from '../header/header.component';
 import { OrderService } from '../../services/order.service';
 import { environment } from '../../environments/environment';
 import { CommonModule } from '@angular/common';
-import { OrderResponse } from '../../responses/user/order/order.response';
+import { OrderResponse } from '../../responses/order/order.response';
 import { OrderDetail } from '../../models/order.detail';
 
 @Component({

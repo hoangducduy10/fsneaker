@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Product } from '../models/product';
 import { OrderDTO } from '../dtos/user/order/order.dto';
-import { OrderResponse } from '../responses/user/order/order.response';
+import { OrderResponse } from '../responses/order/order.response';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',

@@ -32,6 +32,7 @@ import { OrderDTO } from '../../dtos/user/order/order.dto';
 export class OrderComponent implements OnInit {
   orderForm: FormGroup;
   cartItems: { product: Product; quantity: number }[] = [];
+
   couponCode: string = '';
   totalAmount: number = 0;
   orderData: OrderDTO = {

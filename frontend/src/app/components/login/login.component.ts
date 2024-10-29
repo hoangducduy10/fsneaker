@@ -11,6 +11,7 @@ import { TokenService } from '../../services/token.service';
 import { RoleService } from '../../services/role.service';
 import { Role } from '../../models/role';
 import { CommonModule } from '@angular/common';
+import { UserResponse } from '../../responses/user/user.response';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +29,7 @@ export class LoginComponent {
   roles: Role[] = [];
   rememberMe: boolean = true;
   selectedRole: Role | undefined;
+  userResponse?: UserResponse;
 
   constructor(
     private router: Router,
@@ -53,6 +55,10 @@ export class LoginComponent {
     });
   }
 
+  createAccount() {
+    this.router.navigate(['/register']);
+  }
+
   login() {
     debugger;
 
@@ -68,8 +74,26 @@ export class LoginComponent {
         const { token } = response;
         if (this.rememberMe) {
           this.tokenService.setToken(token);
+          debugger;
+          this.userService.getUserDetail(token).subscribe({
+            next: (response: any) => {
+              debugger;
+              this.userResponse = {
+                ...response,
+                date_of_birth: new Date(response.date_of_birth),
+              };
+              this.userService.saveUserToLocalStorage(this.userResponse);
+              this.router.navigate(['/']);
+            },
+            complete: () => {
+              debugger;
+            },
+            error: (error: any) => {
+              debugger;
+              alert(error.error.message);
+            },
+          });
         }
-        // this.router.navigate(['/login']);
       },
       complete: () => {
         debugger;
