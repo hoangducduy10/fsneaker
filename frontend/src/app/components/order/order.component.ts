@@ -15,6 +15,10 @@ import { ProductService } from '../../services/product.service';
 import { environment } from '../../environments/environment';
 import { OrderService } from '../../services/order.service';
 import { OrderDTO } from '../../dtos/user/order/order.dto';
+import { TokenService } from '../../services/token.service';
+import { Router } from '@angular/router';
+import { Order } from '../../models/order';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-order',
@@ -53,6 +57,8 @@ export class OrderComponent implements OnInit {
     private cartService: CartService,
     private productService: ProductService,
     private orderService: OrderService,
+    private tokenService: TokenService,
+    private router: Router,
     private fb: FormBuilder
   ) {
     this.orderForm = this.fb.group({
@@ -70,11 +76,15 @@ export class OrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.orderData.user_id = this.tokenService.getUserId();
     debugger;
     const cart = this.cartService.getCart();
     const productIds = Array.from(cart.keys()); // chuyen list id tu Map sang Cart
 
     debugger;
+    if (productIds.length === 0) {
+      return;
+    }
     this.productService.getProductsByIds(productIds).subscribe({
       next: (products) => {
         debugger;
@@ -123,20 +133,22 @@ export class OrderComponent implements OnInit {
         product_id: cartItem.product.id,
         quantity: cartItem.quantity,
       }));
-
+      this.orderData.total_money = this.totalAmount;
       this.orderService.placeOrder(this.orderData).subscribe({
-        next: (response) => {
+        next: (response: Order) => {
           debugger;
           alert('Đặt hàng thành công!');
+          this.cartService.clearCart();
+          this.router.navigate(['/']);
         },
         complete: () => {
           debugger;
           this.calculateTotal();
         },
-        error: (error: any) => {
+        error: (error: HttpErrorResponse) => {
           debugger;
+          console.error(error);
           alert('Lỗi khi đặt hàng!');
-          console.log('Lỗi khi đặt hàng!', error);
         },
       });
     } else {

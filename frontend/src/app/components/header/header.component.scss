@@ -21,8 +21,48 @@ header {
   color: white !important;
 }
 
+.navbar-nav {
+  position: relative;
+  width: 100%;
+}
+
+.navbar-nav .nav-item-cart,
+.navbar-nav .nav-item-user {
+  position: absolute;
+  display: flex;
+}
+
+.navbar-nav .nav-item-user {
+  right: -100px;
+}
+.navbar-nav .nav-item-cart {
+  right: 60px;
+}
+
 .logo {
   width: 110px;
   height: auto;
   margin-right: -15px;
+}
+
+.popover-list {
+  padding: 5px;
+}
+
+.popover-item {
+  display: block;
+  text-decoration: none;
+  margin-bottom: 5px;
+  padding: 3px;
+  color: #333;
+}
+
+.popover-item i {
+  margin-right: 8px;
+}
+
+.popover-item:hover {
+  background-color: #f0f0f0;
+  color: #ed145b;
+  transition: color 0.3s ease;
 }

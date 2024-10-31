@@ -4,22 +4,22 @@
     <h1>F-Sneaker</h1>
   </div>
   <div class="search-box">
+    <select
+      class="form-control product-category"
+      [(ngModel)]="selectedCategoryId"
+    >
+      <option [value]="0">Tất cả &#9660;</option>
+      <option *ngFor="let category of categories" [value]="category.id">
+        {{ category.name }}
+      </option>
+    </select>
     <input
       type="text"
       class="form-control search-input"
       placeholder="Search..."
       [(ngModel)]="keyword"
     />
-    <select
-      class="form-control product-category"
-      [(ngModel)]="selectedCategoryId"
-    >
-      <option [value]="0">Tất cả</option>
-      <option *ngFor="let category of categories" [value]="category.id">
-        {{ category.name }}
-      </option>
-    </select>
-    <button class="btn btn-primary ml-2" (click)="searchProducts()">
+    <button class="btn btn-search ml-2" (click)="searchProducts()">
       Search
     </button>
   </div>

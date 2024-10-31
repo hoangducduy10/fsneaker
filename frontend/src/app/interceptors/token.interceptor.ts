@@ -11,9 +11,7 @@ import { TokenService } from '../services/token.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor(private tokenService: TokenService) {
-    console.log('TokenInterceptor initialized');
-  }
+  constructor(private tokenService: TokenService) {}
 
   intercept(
     req: HttpRequest<any>,

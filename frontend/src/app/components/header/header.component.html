@@ -23,19 +23,65 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/">Notification </a>
+            <a class="nav-link" routerLink="/">
+              <i class="fa-regular fa-bell"></i>
+              Notification
+            </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item nav-item-cart">
             <a class="nav-link" routerLink="/orders">
               <i class="fas fa-shopping-cart icon"></i>
               Cart
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/login">Log in</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/register">Sign up</a>
+          <li class="nav-item nav-item-user">
+            <ng-container *ngIf="userResponse">
+              <ng-container
+                ngbPopover="My profile<br>Order<br>Log out"
+                popoverTitle="User Actions"
+                triggers="click"
+                [placement]="'bottom'"
+              >
+                <a
+                  class="nav-link"
+                  routerLink="/profile"
+                  [ngbPopover]="popoverContent"
+                  (click)="togglePopover($event)"
+                >
+                  <i class="fa-regular fa-circle-user"></i>
+                  {{ userResponse.fullname }}</a
+                >
+                <ng-template #popoverContent>
+                  <div class="popover-list">
+                    <a
+                      href="#"
+                      class="popover-item"
+                      (click)="handleItemClick(0)"
+                    >
+                      <i class="fa-solid fa-user"></i>My profile</a
+                    >
+                    <a
+                      href="#"
+                      class="popover-item"
+                      (click)="handleItemClick(1)"
+                    >
+                      <i class="fa-regular fa-clipboard"></i>Order</a
+                    >
+                    <a
+                      href="#"
+                      class="popover-item"
+                      (click)="handleItemClick(2)"
+                    >
+                      <i class="fa-solid fa-arrow-right-from-bracket"></i>Log
+                      out</a
+                    >
+                  </div>
+                </ng-template>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="!userResponse">
+              <a class="nav-link" routerLink="/login">Log in</a>
+            </ng-container>
           </li>
         </ul>
       </div>

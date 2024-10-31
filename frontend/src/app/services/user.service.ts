@@ -64,7 +64,7 @@ export class UserService {
     }
   }
 
-  getUserFromLocalStorage() {
+  getUserFromLocalStorage(): UserResponse | null {
     try {
       const userResponseJSON = localStorage.getItem('user');
       if (userResponseJSON == null || userResponseJSON == undefined) {
@@ -78,6 +78,15 @@ export class UserService {
     } catch (error) {
       console.log('Error retrieving user response to local storage: ', error);
       return null;
+    }
+  }
+
+  removeUserFromLocalStorage(): void {
+    try {
+      localStorage.removeItem('user');
+      console.log('User data removed from local storage!');
+    } catch (error) {
+      console.error('Error removing user data from local storage: ', error);
     }
   }
 }

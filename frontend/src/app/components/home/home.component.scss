@@ -10,17 +10,51 @@
   margin-bottom: 20px;
 }
 .product-category {
-  width: 200px;
+  position: relative;
+  width: 85px;
+  border-radius: 8px 0 0 8px;
+  padding: 10px;
 }
+
+.product-category::after {
+  content: "\25BC";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 0.6em;
+}
+
 .product-category option {
   background-color: rgb(19, 23, 42);
 }
+.btn-search {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 8px 15px;
+  border-radius: 0 8px 8px 0;
+}
+
+.product-category,
+.search-input,
+.btn-search {
+  height: 45px;
+}
+
+.btn-search:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
 .search-input {
   width: 300px;
   background-color: rgb(19, 23, 42);
-  margin-right: 10px;
+
   border-color: rgba(255, 255, 255, 0.5);
   color: white;
+  border-radius: 0;
 }
 .form-control {
   background-color: transparent;
