@@ -59,16 +59,6 @@
             />
             <i class="password-toggle fas fa-eye-slash"></i>
             <div class="divider-nospace"></div>
-            <!-- <p
-              class="text-danger error-message"
-              *ngIf="
-                registerForm.form.controls['retypePassword'].hasError(
-                  'passwordNotMatch'
-                ) && registerForm.form.touched
-              "
-            >
-              Confirm password does not match the password!
-            </p> -->
             <p
               class="text-danger error-message"
               *ngIf="
@@ -107,16 +97,7 @@
               required
             />
             <div class="divider-nospace"></div>
-            <!-- <p
-              class="text-danger error-message"
-              *ngIf="
-                registerForm.form.controls['dateOfBirth'].hasError(
-                  'invalidAge'
-                ) && registerForm.form.touched
-              "
-            >
-              You must be at least 18 years old!
-            </p> -->
+
             <p
               class="text-danger error-message"
               *ngIf="
@@ -148,7 +129,7 @@
           <div class="divider mt-5"></div>
           <p class="text-center">
             Have an account already?
-            <span><a href="#" class="register-link">Login</a></span>
+            <span><a routerLink="/login" class="register-link">Login</a></span>
           </p>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TokenService } from './token.service';
+import { TokenService } from '../services/token.service';
 import {
   ActivatedRouteSnapshot,
   Router,

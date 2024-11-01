@@ -7,11 +7,12 @@ import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { RegisterDTO } from '../../dtos/user/register.dto';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FooterComponent, HeaderComponent, FormsModule, NgIf],
+  imports: [FooterComponent, HeaderComponent, FormsModule, NgIf, RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
@@ -59,9 +60,12 @@ export class RegisterComponent {
       },
       complete: () => {
         debugger;
+        alert('Register successfully!');
       },
       error: (error: any) => {
+        debugger;
         alert(`Cannot register, error: ${error.error}`);
+        console.error(error);
       },
     });
   }

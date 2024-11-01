@@ -12,11 +12,18 @@ import { RoleService } from '../../services/role.service';
 import { Role } from '../../models/role';
 import { CommonModule } from '@angular/common';
 import { UserResponse } from '../../responses/user/user.response';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FooterComponent, HeaderComponent, FormsModule, CommonModule],
+  imports: [
+    FooterComponent,
+    HeaderComponent,
+    FormsModule,
+    CommonModule,
+    RouterLink,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

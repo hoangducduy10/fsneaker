@@ -1,3 +1,5 @@
+@import "../../styles/shared-styles.scss";
+
 .intro-section {
   text-align: center;
   color: white;
@@ -71,15 +73,18 @@
   border-radius: 20px;
   padding: 20px;
   margin-bottom: 20px;
+  transition: all 0.3s ease;
 }
+
+.product-item:hover {
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
+  transform: translateY(-5px);
+}
+
 .product-image {
-  // width: 100%;
-  // height: auto;
-  // margin-bottom: 10px;
-  // gpt
-  width: 100%; /* Chiếm toàn bộ chiều rộng khung chứa */
-  height: 300px; /* Đặt chiều cao cố định cho ảnh */
-  object-fit: cover; /* Đảm bảo ảnh giữ tỷ lệ mà vẫn lấp đầy khung */
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
   margin-bottom: 10px;
   border-radius: 10px;
 }
@@ -108,18 +113,18 @@
 //pagination button
 .pagination-container {
   display: flex;
-  justify-content: center; /* Căn giữa phần phân trang */
+  justify-content: center;
   margin-top: 20px;
 }
 
 .pagination {
   display: flex;
-  list-style: none; /* Bỏ dấu bullet */
+  list-style: none;
   padding: 0;
 }
 
 .pagination .page-item {
-  margin: 0 5px; /* Khoảng cách giữa các trang */
+  margin: 0 5px;
 }
 
 .pagination .page-link {
@@ -137,7 +142,7 @@
 }
 
 .pagination .page-link:hover {
-  background-color: #f8f9fa;
+  background-color: #007bff;
   color: #007bff;
   text-decoration: none;
 }
