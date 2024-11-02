@@ -1,6 +1,7 @@
 package com.project.fsneaker.services;
 
 import com.project.fsneaker.components.JwtTokenUtils;
+import com.project.fsneaker.dtos.UpdateUserDTO;
 import com.project.fsneaker.dtos.UserDTO;
 import com.project.fsneaker.exceptions.DataNotFoundException;
 import com.project.fsneaker.exceptions.PermissionDenyException;
@@ -50,7 +51,6 @@ public class UserService implements IUserService {
                 .facebookAccoutId(userDTO.getFacebookAccountId())
                 .googleAccoutId(userDTO.getGoogleAccountId())
                 .build();
-
         user.setRole(role);
         if(userDTO.getFacebookAccountId() == 0 && userDTO.getGoogleAccountId() == 0) {
             String password = userDTO.getPassword();
@@ -96,6 +96,43 @@ public class UserService implements IUserService {
         }else {
             throw new DataNotFoundException("User not found!");
         }
+    }
+
+    @Transactional
+    @Override
+    public User updateUser(Long userId, UpdateUserDTO userDTO) throws Exception {
+        User existingUser = userRepository.findById(userId).orElseThrow(() -> new DataNotFoundException("User not found!"));
+
+        String newPhoneNumber = userDTO.getPhoneNumber();
+        if(!existingUser.getPhoneNumber().equals(newPhoneNumber) && userRepository.existsByPhoneNumber(newPhoneNumber)){
+            throw new DataIntegrityViolationException("Phone number already exists!");
+        }
+        if(userDTO.getFullName() != null){
+            existingUser.setFullname(userDTO.getFullName());
+        }
+        if(newPhoneNumber != null){
+            existingUser.setPhoneNumber(newPhoneNumber);
+        }
+        if(userDTO.getAddress() != null){
+            existingUser.setAddress(userDTO.getAddress());
+        }
+        if(userDTO.getDateOfBirth() != null){
+            existingUser.setDateOfBirth(userDTO.getDateOfBirth());
+        }
+        if(userDTO.getFacebookAccountId() > 0){
+            existingUser.setFacebookAccoutId(userDTO.getFacebookAccountId());
+        }
+        if(userDTO.getGoogleAccountId() > 0){
+            existingUser.setGoogleAccoutId(userDTO.getGoogleAccountId());
+        }
+
+        if(userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()){
+            String newPassword = userDTO.getPassword();
+            String encodePassword = passwordEncoder.encode(newPassword);
+            existingUser.setPassword(encodePassword);
+        }
+
+        return userRepository.save(existingUser);
     }
 
 
