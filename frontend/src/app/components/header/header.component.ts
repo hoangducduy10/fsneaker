@@ -17,6 +17,7 @@ import { TokenService } from '../../services/token.service';
 export class HeaderComponent implements OnInit {
   userResponse?: UserResponse | null;
   isPopoverOpen = false;
+  activeNavItem: number = 0;
 
   togglePopover(event: Event): void {
     event.preventDefault();
@@ -40,5 +41,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.userResponse = this.userService.getUserFromLocalStorage();
+  }
+
+  setActiveNavItem(index: number) {
+    this.activeNavItem = index;
   }
 }
