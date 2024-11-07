@@ -4,6 +4,8 @@ import com.project.fsneaker.dtos.OrderDTO;
 import com.project.fsneaker.exceptions.DataNotFoundException;
 import com.project.fsneaker.models.Order;
 import com.project.fsneaker.responses.OrderResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,5 +20,7 @@ public interface IOrderService {
     void deleteOrder(Long id);
 
     List<Order> findByUserId(Long userId);
+
+    public Page<Order> getOrdersByKeyword(String keyword, Pageable pageable);
 
 }

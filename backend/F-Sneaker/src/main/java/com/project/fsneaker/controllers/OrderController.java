@@ -3,11 +3,19 @@ package com.project.fsneaker.controllers;
 import com.project.fsneaker.components.LocalizationUtils;
 import com.project.fsneaker.dtos.OrderDTO;
 import com.project.fsneaker.models.Order;
+import com.project.fsneaker.responses.OrderListResponse;
 import com.project.fsneaker.responses.OrderResponse;
+import com.project.fsneaker.responses.ProductListResponse;
+import com.project.fsneaker.responses.ProductResponse;
 import com.project.fsneaker.services.IOrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -93,5 +102,21 @@ public class OrderController {
         return ResponseEntity.ok("Order deleted successfully!");
     }
 
+    @GetMapping("/get-orders-by-keyword")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<OrderListResponse> getOrdersByKeyword(
+            @RequestParam(defaultValue = "", required = false) String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ) {
+        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").ascending());
+        Page<OrderResponse> orderPage = orderService.getOrdersByKeyword(keyword, pageRequest).map(OrderResponse::fromOrder);
+        int totalPages = orderPage.getTotalPages();
+        List<OrderResponse> orderResponses = orderPage.getContent();
+        return ResponseEntity.ok(OrderListResponse.builder()
+                .orders(orderResponses)
+                .totalPages(totalPages)
+                .build());
+    }
 
 }
