@@ -18,9 +18,13 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("""
         SELECT o FROM Order o
-        WHERE :keyword IS NULL OR :keyword = '' OR o.fullname LIKE %:keyword% OR o.address LIKE %:keyword% OR o.note LIKE %:keyword%
+        WHERE :keyword IS NULL
+            OR :keyword = '' OR o.fullname LIKE %:keyword%
+            OR o.address LIKE %:keyword% OR o.note LIKE %:keyword%
+            OR o.email LIKE %:keyword%
 """)
-    Page<Order> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
+Page<Order> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
+
 
 //    @Query("""
 //            SELECT new com.project.fsneaker.responses.OrderResponse(o.id, o.user.id, o.fullname, o.email, o.phoneNumber, o.address, o.note, o.orderDate, o.status, o.totalMoney, o.shippingMethod, o.shippingDate, o.shippingAddress, o.trackingNumber, o.paymentMethod, o.active)

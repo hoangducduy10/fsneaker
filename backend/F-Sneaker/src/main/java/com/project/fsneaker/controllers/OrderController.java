@@ -109,8 +109,12 @@ public class OrderController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int limit
     ) {
-        PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").ascending());
-        Page<OrderResponse> orderPage = orderService.getOrdersByKeyword(keyword, pageRequest).map(OrderResponse::fromOrder);
+        PageRequest pageRequest = PageRequest.of(
+                page, limit,
+                Sort.by("id").ascending());
+        Page<OrderResponse> orderPage = orderService
+                .getOrdersByKeyword(keyword, pageRequest)
+                .map(OrderResponse::fromOrder);
         int totalPages = orderPage.getTotalPages();
         List<OrderResponse> orderResponses = orderPage.getContent();
         return ResponseEntity.ok(OrderListResponse.builder()
