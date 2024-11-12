@@ -1,0 +1,42 @@
+h1 {
+  color: #85a6d3;
+}
+
+.container-fluid {
+  background-color: #f8f9fc !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination .page-item {
+  margin: 0 5px;
+}
+
+.pagination .page-link {
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #007bff;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #000000;
+  color: #fff;
+  border-color: #fff;
+}
+
+.pagination .page-link:hover {
+  background-color: #000000;
+  border-color: #fff;
+  color: #fff;
+  text-decoration: none;
+}

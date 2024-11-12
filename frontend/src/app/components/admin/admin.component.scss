@@ -1,0 +1,42 @@
+.container-fluid {
+  background-color: #f8f9fc !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  overflow-x: hidden;
+}
+
+.header {
+  background-color: #ffffff;
+  color: #85a6d3;
+  padding: 10px;
+  text-align: center;
+}
+
+#sidebar {
+  background-color: #4e73df !important;
+  color: white;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+#sidebar .nav-link {
+  display: block;
+  text-align: left;
+  padding: 1rem;
+  width: 14rem;
+}
+
+#sidebar a {
+  color: rgba(255, 255, 255, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#sidebar a:hover {
+  background-color: #0056b3;
+  font-weight: bold;
+}
+
+#sidebar i {
+  font-size: 0.9rem;
+  margin-right: 0.25rem;
+}

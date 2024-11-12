@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <header class="header d-flex justify-content-between">
+    <h1 class="header-title">ADMIN DASHBOARD</h1>
+    <button class="btn btn-danger btn-sm" (click)="logout()">Logout</button>
+  </header>
+  <div class="row">
+    <nav id="sidebar" class="col-md-2 col-lg-2 d-md-block bg-light sidebar">
+      <div class="position-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" (click)="showAdminComponent('orders')">
+              <i class="fab fa-first-order icon"></i>Orders
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="showAdminComponent('categories')">
+              <i class="fab fa-canadian-maple-leaf icon"></i>Categories
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="showAdminComponent('products')">
+              <i class="fab fa-codepen icon"></i>Products
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="col-md-10 col-lg-10 overflow-auto">
+      <ng-container [ngSwitch]="adminComponent">
+        <app-order-admin *ngSwitchCase="'orders'"></app-order-admin>
+        <app-category-admin *ngSwitchCase="'categories'"></app-category-admin>
+        <app-product-admin *ngSwitchCase="'products'"></app-product-admin>
+      </ng-container>
+    </div>
+  </div>
+</div>

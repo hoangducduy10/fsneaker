@@ -11,15 +11,29 @@ import { TokenService } from './token.service';
   providedIn: 'root',
 })
 export class OrderService {
-  private apiGetOrders = `${environment.apiBaseUrl}/orders`;
+  private apiUrl = `${environment.apiBaseUrl}/orders`;
+  private apiGetAllOrders = `${environment.apiBaseUrl}/orders/get-orders-by-keyword`;
 
   constructor(private http: HttpClient) {}
 
   placeOrder(orderData: OrderDTO): Observable<any> {
-    return this.http.post(`${this.apiGetOrders}`, orderData);
+    return this.http.post(this.apiUrl, orderData);
   }
 
-  getOrderById(orderId: number): Observable<OrderResponse> {
-    return this.http.get<OrderResponse>(`${this.apiGetOrders}/${orderId}`);
+  getOrderById(orderId: number): Observable<any> {
+    const url = `${environment.apiBaseUrl}/orders/${orderId}`;
+    return this.http.get(url);
+  }
+
+  getAllOrders(
+    keyword: string,
+    page: number,
+    limit: number
+  ): Observable<OrderResponse[]> {
+    const params = new HttpParams()
+      .set('keyword', keyword)
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    return this.http.get<any>(this.apiGetAllOrders, { params });
   }
 }

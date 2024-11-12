@@ -30,7 +30,7 @@ import { RouterLink } from '@angular/router';
 export class LoginComponent implements OnInit {
   @ViewChild('loginForm') loginForm!: NgForm;
 
-  phoneNumber: string = '0862004185';
+  phoneNumber: string = '0123456789';
   password: string = '12345678';
 
   roles: Role[] = [];
@@ -90,7 +90,11 @@ export class LoginComponent implements OnInit {
                 date_of_birth: new Date(response.date_of_birth),
               };
               this.userService.saveUserToLocalStorage(this.userResponse);
-              this.router.navigate(['/']);
+              if (this.userResponse?.role.name == 'ADMIN') {
+                this.router.navigate(['/admin']);
+              } else if (this.userResponse?.role.name == 'USER') {
+                this.router.navigate(['/']);
+              }
             },
             complete: () => {
               debugger;
@@ -107,7 +111,7 @@ export class LoginComponent implements OnInit {
       },
       error: (error: any) => {
         debugger;
-        alert(`Cannot login, error: ${error.error}`);
+        alert(`Cannot login, error: ${error.error.message}`);
       },
     });
   }

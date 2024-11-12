@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   products: Product[] = [];
   categories: Category[] = [];
   selectedCategoryId: number = 0;
-  currentPage: number = 1;
+  currentPage: number = 0;
   itemsPerPage: number = 9;
   pages: number[] = [];
   totalPages: number = 0;
@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
   }
 
   searchProducts() {
-    this.currentPage = 1;
+    this.currentPage = 0;
     this.itemsPerPage = 9;
 
     this.getProducts(
@@ -84,8 +84,6 @@ export class HomeComponent implements OnInit {
           response.products.forEach((product: Product) => {
             product.url = `${environment.apiBaseUrl}/products/images/${product.thumbnail}`;
           });
-          console.log({ response });
-
           this.products = response.products;
           this.totalPages = response.totalPages;
           this.visiblePages = this.generateVisiblePageArray(
