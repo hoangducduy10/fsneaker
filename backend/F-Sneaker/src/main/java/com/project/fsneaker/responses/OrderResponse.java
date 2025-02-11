@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -34,7 +33,7 @@ public class OrderResponse extends BaseResponse {
     @JsonProperty("phone_number")
     private String phoneNumber;
 
-    @JsonProperty("fullname")
+    @JsonProperty("address")
     private String address;
 
     @JsonProperty("note")

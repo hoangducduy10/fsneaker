@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-FSneakerApplication<F-Sneaker>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.project.fsneaker.FSneakerApplication",
+      "projectName": "F-Sneaker",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

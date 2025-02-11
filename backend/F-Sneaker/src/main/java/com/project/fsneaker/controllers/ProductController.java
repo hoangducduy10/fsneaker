@@ -1,5 +1,6 @@
 package com.project.fsneaker.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.javafaker.Faker;
 import com.project.fsneaker.components.LocalizationUtils;
 import com.project.fsneaker.configurations.FileStorageProperties;
@@ -10,8 +11,11 @@ import com.project.fsneaker.models.ProductImage;
 import com.project.fsneaker.responses.ProductListResponse;
 import com.project.fsneaker.responses.ProductResponse;
 import com.project.fsneaker.services.IProductService;
+import com.project.fsneaker.services.ProductRedisService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -53,6 +57,8 @@ public class ProductController {
     private final IProductService productService;
     private final LocalizationUtils localizationUtils;
     private final FileStorageProperties fileStorageProperties;
+    private final ProductRedisService productRedisService;
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping("")
     public ResponseEntity<ProductListResponse> getProducts(
@@ -60,14 +66,20 @@ public class ProductController {
             @RequestParam(defaultValue = "0", name = "category_id") Long categoryId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int limit
-    ) {
+    ) throws JsonProcessingException {
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").ascending());
-        Page<ProductResponse> productPage = productService.getAllProducts(keyword, categoryId, pageRequest);
-        int totalPages = productPage.getTotalPages();
-        List<ProductResponse> products = productPage.getContent();
+        logger.info(String.format("keyword: %s, category_id: %d, page: %d, limit: %d", keyword, categoryId, page, limit));
+        List<ProductResponse> productResponses = productRedisService.getAllProducts(keyword, categoryId, pageRequest);
+        if(productResponses == null){
+            Page<ProductResponse> productPage = productService.getAllProducts(keyword, categoryId, pageRequest);
+            int totalPages = productPage.getTotalPages();
+            productResponses = productPage.getContent();
+            productRedisService.saveAllProducts(productResponses, keyword, categoryId, pageRequest);
+        }
+
         return ResponseEntity.ok(ProductListResponse.builder()
-                .products(products)
-                .totalPages(totalPages)
+                .products(productResponses)
+                .totalPages(0)
                 .build());
     }
 

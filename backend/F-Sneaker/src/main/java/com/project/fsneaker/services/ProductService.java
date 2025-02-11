@@ -27,6 +27,7 @@ public class ProductService implements IProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ProductImageRepository productImageRepository;
+    private final IProductRedisService productRedisService;
 
     @Override
     @Transactional
@@ -41,6 +42,7 @@ public class ProductService implements IProductService {
                 .description(productDTO.getDescription())
                 .category(existingCategory)
                 .build();
+        newProduct.setProductRedisService(productRedisService);
         return productRepository.save(newProduct);
     }
 
@@ -75,11 +77,19 @@ public class ProductService implements IProductService {
             Category existingCategory = categoryRepository.findById(productDTO.getCategoryId())
                     .orElseThrow(() ->
                             new DataNotFoundException("Cannot find category with id: "+productDTO.getCategoryId()));
-            existingProduct.setName(productDTO.getName());
+            if(productDTO.getName() != null && !productDTO.getName().isEmpty()){
+                existingProduct.setName(productDTO.getName());
+            }
             existingProduct.setCategory(existingCategory);
-            existingProduct.setPrice(productDTO.getPrice());
-            existingProduct.setThumbnail(productDTO.getThumbnail());
-            existingProduct.setThumbnail(productDTO.getThumbnail());
+            if(productDTO.getPrice() >= 0){
+                existingProduct.setPrice(productDTO.getPrice());
+            }
+            if(productDTO.getDescription() != null && !productDTO.getDescription().isEmpty()){
+                existingProduct.setDescription(productDTO.getDescription());
+            }
+            if(productDTO.getThumbnail() != null && !productDTO.getThumbnail().isEmpty()){
+                existingProduct.setThumbnail(productDTO.getThumbnail());
+            }
             return productRepository.save(existingProduct);
         }
         return null;

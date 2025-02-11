@@ -8,7 +8,7 @@ spring:
     username: root
     password:
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
     properties:
@@ -23,6 +23,10 @@ spring:
     basename: i18n/messages
     encoding: UTF-8
     default-locale: en
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
 api:
   prefix: api/v1
 jwt:
@@ -30,3 +34,5 @@ jwt:
   secretKey: or88cdmg8aVmDnJYu7tx+IYcpRXKWUxPAZnt6Uokkys=
 file:
   upload-dir: F-Sneaker/uploads
+
+logging.level.org.springframework.security: DEBUG
